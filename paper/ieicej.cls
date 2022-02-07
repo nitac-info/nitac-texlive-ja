@@ -995,7 +995,7 @@
     \raisebox{-3mm}{\head@type{\hd@typeofletter}}\hrulefill
    }}}\hfil
    \ifx\@Sissue\empty
-    {\Small\head@font 阿南工業高等専門学校 創造技術工学科情報コース 平成30年度卒業論文}%
+    {\Small\head@font 阿南工業高等専門学校 創造技術工学科情報コース 令和n年度卒業論文}%
    \else
     {\normalsize\bfseries\mathversion{bold}\@Sissue}%
    \fi
@@ -1019,13 +1019,13 @@
   \let\@evenhead\@oddhead
  \fi
  \def\@oddfoot{\@Lbot\hfil
-  {\foot@font 阿南工業高等専門学校 創造技術工学科情報コース 平成30年度卒業論文
+  {\foot@font 阿南工業高等専門学校 創造技術工学科情報コース 令和n年度卒業論文
   }\hfil
     \llap{{\nombre@font\thepage\hskip3mm}}%
   \@Rbot}%
  \def\@evenfoot{\@Lbot
   \rlap{\hskip3mm{\nombre@font\thepage}}\hfil
-   {\foot@font 阿南工業高等専門学校 創造技術工学科情報コース 平成30年度卒業論文
+   {\foot@font 阿南工業高等専門学校 創造技術工学科情報コース 令和n年度卒業論文
    }\hfil
   \@Rbot}%
 }
@@ -1043,7 +1043,7 @@
   \@Rtop}%
  \def\@evenhead{\@Ltop
   \rlap{\hbox to \textwidth{\smash{\rule[-1.75mm]{\textwidth}{0.25mm}}}}\hfil
-   {\Small\head@font 阿南工業高等専門学校 創造技術工学科情報コース 平成30年度卒業論文}%
+   {\Small\head@font 阿南工業高等専門学校 創造技術工学科情報コース 令和n年度卒業論文}%
   \@Rtop}%
 }
 
