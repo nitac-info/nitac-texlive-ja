@@ -42,7 +42,7 @@ docker build -t nitac-texlive-ja .
 
 #### Windows
 
-**Windowsのスクリプトには拡張子は必要ない．**
+**Windows のスクリプトには拡張子は必要ない．**
 
 ```
 ./scripts/texc.ps1 ファイル名
@@ -59,9 +59,9 @@ chmod +x ./scripts/texc.sh
 
 ### Visual Studio Code + LaTeX Workshop で自動コンパイルを行う
 
-1. [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) をインストール
-2. Visual Studio Code の `settings.json` に以下を追加する([開き方](https://code.visualstudio.com/docs/getstarted/settings))
-3. 自身の論文作成フォルダに `latexmkrc` ファイルをコピー
+1. [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) をインストールする
+2. Visual Studio Code の `settings.json` に以下を追加する ([開き方](https://code.visualstudio.com/docs/getstarted/settings))
+3. 自身の論文作成フォルダに `latexmkrc` ファイルをコピーする
 
 ```json
 {
@@ -71,7 +71,12 @@ chmod +x ./scripts/texc.sh
     {
       "name": "latexmk",
       "command": "latexmk",
-      "args": ["-gg", "%DOC%"]
+      "args": ["-gg", "%DOCFILE%"]
+    },
+    {
+      "name": "latexindent",
+      "command": "latexindent",
+      "args": ["%DOCFILE", "--overwrite"]
     }
   ],
   "latex-workshop.latex.autoClean.run": "onBuilt"
