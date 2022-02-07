@@ -1,0 +1,392 @@
+% Copyright (C) 1995-2007 by Hiroshi Nakashima, Yasuki Saito and
+%                            The Editorial Board of the IPSJ Journal
+%
+% ipsjdrafts.sty 15-Jun-07 by Hiroshi Nakashima (ver 2.12)
+% (revision history deleted)
+% ipsjdrafts.sty 24-Apr-95 by Hiroshi Nakashima (ver 1.0)
+
+%%%%%% Fonts %%%%%%
+% All font loading are removed.
+
+\ifipsj@nonjp\else						% 2.12(1a)
+\ifASCII
+\let\latex@setsize\@setsize
+\def\@setsize#1#2#3#4{\latex@setsize{#1}{#2}{#3}{#4}\jspaceskip1zw}
+
+\newcount\jfsize
+\let\setjglues\relax
+\let\jintercharskip\kanjiskip
+\let\jasciikanjiskip\xkanjiskip
+\let\jmathkanjiskip\xkanjiskip
+\newdimen\jspaceskip
+
+\def\defjintercharskip#1#2#3#4{\@asciiwarning{\defjintercharskip}}
+\def\defjasciikanjiskip#1#2#3#4{\@asciiwarning{\defjasciicharskip}}
+\def\defmathkanjiskip#1#2#3#4{\@asciiwarning{\defmathcharskip}}
+\def\defjspaceskip#1#2#3#4{\@asciiwarning{\defjspaceskip}}
+
+\def\@asciiwarning#1{\ipsj@warning{\string#1\space		% 2.00(1)
+	is not supported in ASCII version}}
+
+\if@LaTeX@eN							% 2.00(2)>>
+\DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
+\DeclareOldFontCommand{\gt}{\normalfont\gtfamily}{\mathgt}
+\fi								% 2.00(2)<<
+
+\def\dg{\gt}							% 1.06(1)
+\def\dm{\mc}							% 1.06(1)
+
+\else	% This is necessary even in 2e.
+\ifx\sixdm\undefined \jfont\sixdm=dm6 \fi			% 1.01(1)
+								% 1.06(2)
+\fi \fi
+
+\if@LaTeX@eN							% 2.00(2)>>
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\DeclareRobustCommand*{\cal}{\@fontswitch{\relax}{\mathcal}}
+\DeclareRobustCommand*{\mit}{\@fontswitch{\relax}{\mathnormal}}
+\fi								% 2.00(2)<<
+
+%%%%%% Basic Font Size Macros %%%%%%
+% Nothing at all.
+
+
+%%%%%% Font Size Macros %%%%%%
+
+\def\fs@setsize#1#2#3#4{\normalsize\dimen@\normalbaselineskip
+	\@ifstar{\@setsize{#1}{\dimen@}{#3}{#4}}%
+		{\@setsize{#1}{#2}{#3}{#4}}}
+
+% \baselineskip's are almost 1.25 times those defined in NTT jart12.
+
+\def\@normalsize{\@setsize\normalsize{20pt}\xiipt\@xiipt}
+\def\small{\fs@setsize\small{17pt}\xipt\@xipt}
+\def\footnotesize{\fs@setsize\footnotesize{14pt}\xpt\@xpt}
+\def\scriptsize{\@setsize\scriptsize{11.875pt}\viiipt\@viiipt}
+\def\tiny{\@setsize\tiny{8.75pt}\vipt\@vipt}
+\def\large{\@setsize\large{20pt}\xivpt\@xivpt}			% 1.06(3)
+\def\Large{\@setsize\Large{25pt}\xviipt\@xviipt}
+\def\LARGE{\@setsize\LARGE{25pt}\xxpt\@xxpt}
+\let\huge\LARGE
+\let\Huge\LARGE
+
+\if@LaTeX@e							% 2.00(3)>>
+\let\normalsize\@normalsize
+\fi								% 2.00(3)<<
+
+\let\fs@sec\large
+\let\fs@subsec\normalsize
+\let\fs@bibliography\normalsize
+\let\fs@caption\normalsize
+\let\fs@table\normalsize
+\let\fs@footnote\footnotesize
+{\tiny \xdef\fn@fontv{\ifipsj@nonjp \the\font \else		% 2.12(1a)
+	\ifASCII \the\jfont \else \sixdm \fi\fi}}
+\let\fn@fontvi\fn@fontv
+
+\@normalsize 
+
+\ifipsj@nonjp\else						% 2.12(1a)
+\ifASCII\else							% 1.06(2) >>
+\ifx\setjglue\undefined\else					% 2.04(1)
+\def\@tempc{\edef\@tempa{\the\ja}
+	\edef\@tempa{\expandafter\string\@tempa}
+	\expandafter\@tempb\@tempa\@nil
+	\expandafter\defjintercharskip\csname\@tempa\endcsname}
+\let\@tempd\@namedef
+{\catcode`j=12\catcode`a=12\gdef\@tempb#1#2ja\@nil{\@tempd{@tempa}{#2}}}
+\dg\@tempc{0pt}{1.4pt}{0.14pt}
+\dm\@tempc{0pt}{1.4pt}{0.14pt}
+\setjglues
+\fi\fi\fi							% 1.06(2) <<
+
+\@tempdima.55\baselineskip
+\edef\sec@aboveskip{\the\@tempdima}
+\@tempdima.45\baselineskip
+\edef\sec@belowskip{\the\@tempdima}
+
+\ifipsj@nonjp\else						% 2.12(1a)
+\if@LaTeX@e\else						% 2.04(2)
+\let\latex@bf\bf						% 1.06(1)
+\def\bf{\dg\latex@bf}						% 1.06(1)
+\fi\fi								% 2.04(2)
+
+
+%%%%%% Page Layout Parameters %%%%%%
+
+\newdimen\@mojihaba
+\ifipsj@nonjp							% 2.12(1a)>>
+	\@mojihaba11.54659pt
+	\let\jspaceskip\@mojihaba
+\else
+	\@mojihaba\jspaceskip
+\fi								% 2.12(1a)<<
+
+% No heads
+\headheight\z@
+\headsep\z@
+
+\setbox0\hbox{$\displaystyle X^X$}
+\topskip\ht0
+
+% 1 page = 32 lines
+\textheight31\baselineskip \advance\textheight\topskip \advance\textheight100sp
+
+% \topmargin is (A4height-\textheight)/2 - 1in
+\topmargin296mm \advance\topmargin-\textheight \divide\topmargin\tw@
+\advance\topmargin-1in
+\ifASCII\if@LaTeX@e\ifipsj@nonjp\else
+	\@@topmargin\topmargin \fi\fi\fi		% 2.00(4),2.12(1a)
+
+\footskip 1.5\baselineskip
+
+% 1 page = 35 Kanji chars
+\ifDS@english							% 1.06(4) >>
+\textwidth404.13048pt
+\else
+\textwidth35\@mojihaba
+\fi								% 1.06(4) <<
+
+% \oddsidemargin is (A4width-\textwidth)/2 - 1in
+\oddsidemargin210mm \advance\oddsidemargin-\textwidth \divide\oddsidemargin\tw@
+\advance\oddsidemargin-1in
+
+% As jart12
+\footnotesep10pt
+\skip\footins 10.8pt plus 4pt minus 2pt 
+\def\footnoterule{\kern-3\p@ \hrule width.4\columnwidth \kern2.6\p@}
+
+\floatsep \baselineskip \textfloatsep \baselineskip 
+\intextsep \baselineskip \@maxsep \baselineskip
+\dblfloatsep \baselineskip \dbltextfloatsep \baselineskip
+\@dblmaxsep \baselineskip
+\@fptop 0pt plus 1fil \@fpsep 0pt plus 2fil \@fpbot 0pt plus 1fil 
+\@dblfptop 0pt plus 1fil \@dblfpsep 0pt plus 2fil \@dblfpbot 0pt plus 1fil
+
+\parskip\z@ \parindent \@mojihaba
+\@lowpenalty 51 \@medpenalty 151 \@highpenalty 301 
+\@beginparpenalty -\@lowpenalty \@endparpenalty -\@lowpenalty
+\@itempenalty -\@lowpenalty 
+
+
+%%%%%% Title and Authors %%%%%%
+%
+% Format of title, author names and abstract.
+%
+%	\leftline{\LARGE <<paper-category>>}
+%	\vfill
+%	\beign{center}\LARGE\bf <Japanese title>\end{center}
+%	\vfill
+%	\begin{center}\LARGE\bf <Engilish title>\end{center}
+%	\vfill\vfill
+%	\newpage
+%	\large <Japanese author names>
+%	\vfill
+%	<<contact info>>
+%	\begin{itemize}\item[]\large <Contact address>\end{itemize}
+%	\vfill\vfill
+%	\newpage
+%	\normalsize <Japanese abstract>
+%	\normalsize <English abstract>
+
+\def\maketitle{\@maketitle}
+
+% default title header
+
+\def\title{\@dblarg{\@xtitle}}
+\def\@xtitle[#1]#2{\gdef\@title{#2}}
+\def\@title{\leavevmode\mkt@warning\title}
+\long\def\author#1{\long\gdef\@author{#1}}
+\def\@author{\mkt@warning\author}
+
+\newbox\@abstractbox
+
+\def\abstract{\global\let\@abstract\relax
+	\global\setbox\@abstractbox\vtop\bgroup}
+\def\endabstract{\par\hbox{}\egroup}
+\def\@abstract{\mkt@warning{abstract env}}
+
+%% We need English title, author name(s) and abstract. (H.N.)
+%% English author names are simply ignored.
+\def\etitle#1{\gdef\@etitle{#1}}
+\def\@etitle{\leavevmode\mkt@warning\etitle}
+\long\def\eauthor#1{}
+
+\newbox\@eabstractbox
+\def\eabstract{\global\let\@eabstract\relax
+	\global\setbox\@eabstractbox\vtop\bgroup}
+\let\endeabstract\endabstract
+\def\@eabstract{\mkt@warning{eabstract env}}
+
+\ifDS@english \let\abstract\eabstract \let\@eabstract\@abstract \fi
+
+% Contact address is no longer required even in draft.
+\def\contact{\long\def\mkt@contact}
+\def\mkt@contact{}						% 2.12(4)
+
+\def\@maketitle{\newpage\thispagestyle{empty}
+	\leftline{\LARGE
+		\ifDS@TBIO \ipsj@TBIO@pcatref			% 2.11(1)
+		\else\ifDS@english \ifDS@technote Technical Note\else
+			Regular Paper\fi
+		\else \ifDS@technote \ipsj@j@technote		% 2.12(1b)
+			       \else \ipsj@j@regpaper\fi\fi\fi}
+	\vfill
+	\begin{center}\LARGE\bf\@title\end{center}
+	\ifDS@english\else 
+		\vfill
+		\begin{center}\LARGE\bf\@etitle\end{center}\fi
+	\@thanks
+	\vfill\vfill
+%								% 2.12(4)>>
+%	\ifDS@anonymous\else					% 2.10(1)>>
+%	    \newpage\thispagestyle{empty}
+%	    \begingroup\large\vspace*{\fill}\rightskip0pt plus1fil
+%	    \parindent\z@\parskip.5\baselineskip\hangindent2em\hangafter\@ne
+%	    \def\par{{\@@par}}
+%	    \mkt@makeauthor
+%	    \par\vfill
+%	    \noindent
+%	    \ifDS@english Contact To:\else \ipsj@j@contactto \fi% 2.12(1b)
+%	    \endgroup
+%	    \begin{itemize}\large\item[]\mkt@contact\end{itemize}
+%	    \vfill\vfill
+%	\fi							% 2.10(1)<<
+%								% 2.12(4)<<
+	\newpage \setcounter{page}{1}\def\thepage{\roman{page}}
+	\ifDS@english\else \@abstract \centerline{\bf \ipsj@j@abstract}
+%								% 2.12(1b)
+		\vskip-\prevdepth\vskip\baselineskip\vskip-\ht\@abstractbox
+		\unvbox\@abstractbox\prevdepth\z@ \fi
+	\centerline{\bf Abstract}
+	\vskip-\prevdepth \vskip\baselineskip\vskip-\ht\@eabstractbox
+	\@eabstract \unvbox\@eabstractbox
+	\newpage \def\thepage{\arabic{page}}\setcounter{page}{1}}
+
+\def\mkt@makeauthor{\let\member\mkt@member \let\nomember\mkt@nomember
+	\let\stmember\mkt@stmember
+	\expandafter\mkt@imakeauthor\@author\and\@nil\and}
+\def\mkt@imakeauthor#1\and{\def\@tempa{#1}\ifx\@tempa\@nnil\let\next\relax
+	\else #1\par\let\next\mkt@imakeauthor\fi\next}
+
+% Macros to specify author's affiliation easily.
+\ifDS@english
+\def\paffilabel#1#2{\affilabel{#1}{Presently with #2}}
+\else
+\def\paffilabel#1#2{\affilabel{#1}{\ipsj@j@presently #2}}
+\fi
+% Ignore English affiliation even if given.
+\def\affilabel#1#2{\@ifundefined{affi@r@#1}%
+		{\expandafter\xdef\csname affi@r@#1\endcsname
+			{\affi@cuteng#2\\\@nil}}
+		{\ipsj@warning{Affiliation label `#1' multiply defined}}}
+								% 2.00(1)
+\def\affiref#1{\@ifundefined{affi@r@#1}%
+		{\ipsj@warning{%				% 2.00(1)
+			Affiliation reference `#1' undefined}\hbox{(???)}}
+		{\setbox\@tempboxa\hbox{(\csname affi@r@#1\endcsname)}%
+			\@tempdima\wd\@tempboxa \advance\@tempdima2em\relax
+			\ifdim\@tempdima>\hsize
+				\newline\unhbox\@tempboxa
+			\else\ \box\@tempboxa\fi}}
+\def\affi@cuteng#1\\#2\@nil{#1}
+
+% Membership of aurthor is required in draft.
+\ifDS@english
+\def\mkt@member#1{\ \hbox{[Regular Member\##1]}}
+\def\mkt@nomember{\ \hbox{[Non Member]}}
+\def\mkt@stmember#1{\ \hbox{[Student Member\##1]}}
+\else
+\def\mkt@member#1{\ \hbox{[\ipsj@j@member\##1]}}
+\def\mkt@nomember{\ \hbox{[\ipsj@j@nomember]}}
+\def\mkt@stmember#1{\ \hbox{[\ipsj@j@stmember\##1]}}
+\fi
+
+%%%%%% Page Header and Footer %%%%%% 
+
+\mark{{}{}} 
+
+% The following counters are not used, but may appear.
+\let\c@volpage\c@page						% 2.00(5)
+\def\thevolpage{\thepage}					% 2.00(5)
+\newcounter{volpageoffset} % You must set this to appropriate value
+\newcounter{volume}						% 2.12(1b)>>
+\newcounter{number}
+\newcounter{year}						% 2.12(1b)<<
+
+\def\ps@plain{\let\@mkboth\@gobbletwo
+	\def\@oddhead{\@checklines}\let\@evenhead\@oddhead
+	\def\@oddfoot{\rm \hfil\thepage\hfil}\let\@evenfoot\@oddfoot}
+
+\def\transaction#1#2#3{}					% 2.11(2)
+\long\def\copyrightnotice#1{}					% 2.11(2)
+
+% \checklines enables to draw a horizontal rule onto each baselines.
+
+\newif\if@checklines \@checklinesfalse
+\def\checklines{\@checklinestrue}
+\def\@checklines{\if@checklines \rlap{\smash{\vtop{
+	\hbox{} \vskip\headsep \hrule width\textwidth\vskip-.4pt \vskip\topskip
+	\hrule\vskip-.4pt
+	\@tempcnta31\relax\@@checklines}}}\hfil\fi}
+\def\@@checklines{\ifnum\@tempcnta>\z@
+	\vskip\normalbaselineskip \hrule\vskip-.4pt \advance\@tempcnta\m@ne
+	\let\next\@@checklines\else\let\next\relax\fi\next}
+
+\pagestyle{plain}
+\pagenumbering{arabic}
+
+\ifDS@english\else
+\def\today{\the\year\ipsj@j@year \the\month\ipsj@j@month \the\day\ipsj@j@day}
+								% 2.12(1b)
+\fi
+
+
+%%%%%% Output Routine %%%%%%
+% Nothing at all.
+
+
+%%%%%% Biography %%%%%%
+% Almost nothing.
+
+\def\received#1#2#3{}						% 2.12(1b)>>
+\def\accepted#1#2#3{}
+\def\rereceived#1#2#3{}						% 2.11(2)>>
+% definition of \released is removed				% 2.12(2)
+\def\edInCharge#1{}						% 2.11(2)<<
+%								% 2.12(1b)<<
+
+\def\biography{\let\member\@gobble \let\nomember\@gobble \let\stmember\@gobble
+	\ifDS@english \let\author\@gobble \fi			% 2.12(3)
+	\let\adjust\@gobble \setbox0\vbox\bgroup
+	\tolerance\@M \hbadness\@M \hfuzz\maxdimen}
+\def\endbiography{\egroup\setbox0\hbox{}}
+
+
+%%%%%% Miscellaneous %%%%%%
+
+\raggedbottom
+
+\input{ipsjcommon.sty}
+
+% Redefine \acknowledgment to put it separately.
+\newbox\ack@box
+\let\@acknowledgment\acknowledgment
+
+\def\acknowledgment{\global\setbox\ack@box\vtop\bgroup\@acknowledgment}
+\def\endacknowledgment{\par\egroup}
+
+%								% 2.12(4)>>
+%\let\id@enddocument\enddocument
+%\def\enddocument{\clearpage
+%	\ifDS@anonymous\else \unvbox\ack@box \fi		% 2.10(1)
+%	\id@enddocument}
+%								% 2.12(4)<<
+
+\endinput
