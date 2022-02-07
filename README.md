@@ -1,6 +1,6 @@
 # nitac-texlive-ja
 
-> 阿南工業高等専門学校 情報コース 卒業論文の LaTeX テンプレートリポジトリ <br> [電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) をもとにテンプレートを作成する．
+> 阿南工業高等専門学校 情報コース 卒業論文の LaTeX テンプレートリポジトリ <br> [電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) の LaTeX テンプレートをもとに作成する．
 
 ## フォルダ構造
 
@@ -25,9 +25,9 @@
 
 ## 使い方
 
-### Dockerfile のビルド
+### 1. Dockerfile のビルド
 
-1. [paperist/texlive-ja](https://hub.docker.com/r/paperist/texlive-ja/) をもとに作った Dockerfile をビルドする．
+- [paperist/texlive-ja](https://hub.docker.com/r/paperist/texlive-ja/) をもとに作った Dockerfile をビルドする．
 
 ```
 git clone https://github.com/nitac-info/nitac-texlive-ja
@@ -35,9 +35,11 @@ cd nitac-texlive-ja
 docker build -t nitac-texlive-ja .
 ```
 
-### LaTeX ファイルのコンパイル
+### 2. LaTeX ファイルのコンパイル
 
-- Windows
+> それぞれ環境変数や alias に追加すると便利に使えそう
+
+#### Windows
 
 > 拡張子は必要ない．
 
@@ -45,12 +47,14 @@ docker build -t nitac-texlive-ja .
 ./scripts/texc.ps1 ファイル名
 ```
 
-- Mac・Linux(bash)
+#### Mac・Linux(bash)
 
 ```
 chmod +x ./scripts/texc.sh
 ./scripts/texc.sh ファイル名.tex
 ```
+
+## その他
 
 ### Visual Studio Code + LaTeX Workshop で自動コンパイルを行う
 
