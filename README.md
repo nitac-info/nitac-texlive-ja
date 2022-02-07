@@ -2,6 +2,27 @@
 
 > 阿南工業高等専門学校 情報コース 卒業論文の LaTeX テンプレートリポジトリ <br> [電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) をもとにテンプレートを作成する．
 
+## フォルダ構造
+
+```
+├── Dockerfile
+├── README.md (本ファイル)
+├── draft
+│   ├── ipsjcommon.sty
+│   ├── ipsjdrafts.sty
+│   ├── ipsjpapers.cls
+│   ├── ipsjpapers.sty
+│   └── nitac-drafts.tex (卒論ドラフトテンプレート)
+├── latexmkrc
+├── paper
+│   ├── ieicej.cls
+│   ├── nitac-paper.tex (卒業論文テンプレート)
+│   └── sieicej.bst
+└── scripts
+    ├── texc.ps1 (Windows 環境用コンパイルスクリプト)
+    └── texc.sh  (Mac・Linux 環境用コンパイルスクリプト)
+```
+
 ## 使い方
 
 ### Dockerfile のビルド
@@ -18,7 +39,7 @@ docker build -t nitac-texlive-ja .
 
 - Windows
 
-> 拡張子は必要ない
+> 拡張子は必要ない．
 
 ```
 ./scripts/texc.ps1 ファイル名
