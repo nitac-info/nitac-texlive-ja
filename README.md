@@ -1,7 +1,6 @@
 # nitac-texlive-ja
 
-> 阿南工業高等専門学校 情報コース 卒業論文の LaTeX テンプレートリポジトリ <br>
-> [電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) をもとにテンプレートを作成する．
+> 阿南工業高等専門学校 情報コース 卒業論文の LaTeX テンプレートリポジトリ <br> [電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) をもとにテンプレートを作成する．
 
 ## 使い方
 
@@ -25,7 +24,7 @@ docker build -t nitac-texlive-ja .
 ./scripts/texc.ps1 ファイル名
 ```
 
-- Mac
+- Mac・Linux(bash)
 
 ```
 chmod +x ./scripts/texc.sh
