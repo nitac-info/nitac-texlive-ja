@@ -2,8 +2,22 @@ FROM paperist/texlive-ja:latest
 
 RUN apt-get update \
   && apt-get install -y \
-  libfontconfig1 \
-  && rm -rf /var/lib/apt/lists/*
+    make \
+    cmake
 
-# newtxのインストール
-RUN tlmgr install newtx fontaxes boondox txfonts helvetic
+# newtx, latexindent のインストール
+RUN tlmgr option repository ctan
+RUN tlmgr update --self
+RUN tlmgr install \
+  newtx \
+  fontaxes \
+  boondox \
+  txfonts \
+  helvetic \
+  latexindent
+
+RUN cpan Log::Log4perl \
+  && cpan YAML/Tiny.pm \
+  && cpan Log::Dispatch::File \
+  && cpan File::HomeDir \
+  && cpan Unicode::GCString
