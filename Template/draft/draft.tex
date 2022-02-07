@@ -1,0 +1,244 @@
+%投稿用クラス
+\documentclass[uplatex,draft]{ipsjpapers}
+%研究報告用クラス
+%\documentclass[uplatex,techrep]{ipsjpapers}
+%製版用クラス
+%\documentclass{ipsjpapers}
+%
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{color}
+%\usepackage{fancybox}
+%\usepackage{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{float}
+%
+%
+% ユーザが定義したマクロなど．
+\makeatletter
+\let\@ARRAY\@array \def\@array{\def\<{\inhibitglue}\@ARRAY}
+\def\<{\(\langle\)\nobreak}
+\def\>{\nobreak\(\rangle\)}
+\def\|{\verb|}
+\def\Underline{\setbox0\hbox\bgroup\let\\\endUnderline}
+\def\endUnderline{\vphantom{y}\egroup\smash{\underline{\box0}}\\}
+\def\LATEX{\iLATEX\Large}
+\def\LATEx{\iLATEX\normalsize}
+\def\LATex{\iLATEX\small}
+\def\iLATEX#1{L\kern-.36em\raise.3ex\hbox{#1\bf A}\kern-.15em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}
+\def\LATEXe{\ifx\LaTeXe\undefined \LaTeX 2e\else\LaTeXe\fi}
+\def\LATExe{\ifx\LaTeXe\undefined \iLATEX\scriptsize 2e\else\LaTeXe\fi}
+\def\Quote{\list{}{}\item[]}
+\let\endQuote\endlist
+\def\TT{\if@LaTeX@e\tt\fi}
+\def\CS#1{\if@LaTeX@e\tt\expandafter\string\csname#1\endcsname\else
+	$\backslash$#1\fi}
+%
+\newcommand{\strref}[1]{文\nobreak{}(\ref{#1})}
+\newcommand{\eqnref}[1]{式(\nobreak\ref{#1})}
+\newcommand{\secref}[1]{\nobreak\ref{#1}節}
+\newcommand{\chapref}[1]{\nobreak\ref{#1}章}
+%
+%
+%数式の上下のスペース指定
+%長い式用
+\setlength\abovedisplayskip{12pt plus 3pt minus 7pt}
+\setlength\belowdisplayskip{6.5pt plus 3.5pt minus 3pt}
+%短い式用
+\setlength\abovedisplayshortskip{0pt plus 3pt}
+\setlength\belowdisplayshortskip{\abovedisplayskip}
+%
+%
+%
+%\renewcommand{\bib}{参考文献}
+%
+%
+%
+%\checklines	% 行送りを確認する時に使用
+%
+%
+%
+\begin{document}%{
+%
+% 和文表題
+\title[{\protect\LaTeX} 情報処理学会による卒論ドラフト作成のガイド]%
+  {阿南高専情報コース卒論ドラフトのサンプル}
+%
+% 英文表題
+\etitle{A Sample of  Thesis Draft for the Course of Information Engineering at the Anan National College of Technology}
+
+%
+% 和文概要
+\begin{abstract}
+ここには，日本語のアブストラクトを書きます．
+どういう背景のもとで，何のために，何をして，何を得られたのかをコンパクトに述べましょう．
+\par
+例．
+近年，～～～の重要性が高まっている\cite{Gazoudenshi1}．
+しかし，～～～という問題がある\multicite{Ohtake1}{Sagawa1}．
+そこで本研究では，～～～について取り組む．
+～～～を用いた実験により，～～～であることを示す．
+\end{abstract}
+%
+%
+% 英文概要
+\begin{eabstract}
+In this space, please write the abstract of your research in English.
+\par
+Example: In recent years, xxx is becoming more and more important\cite{Gazoudenshi1}.
+However, there are some problems such as xxx\multicite{Ohtake1}{Sagawa1}.
+In this paper, we addresses xxx.
+Evaluation experiments using xxx shows that xxx.
+\end{eabstract}
+%
+%
+% 表題などの出力
+\maketitle
+%
+%
+%
+%}{
+%
+%
+%
+% 本文はここから始まる
+\section{はじめに}
+\label{sec:intro}
+%
+\subsection{本研究の背景}
+研究の技術的・社会的背景について，関連研究を適宜引用しながら述べましょう．
+具体的には，自分の選んだ研究分野において，これまでどのような研究が行われてきたのか，一方で，何が未解決の問題なのか，などを述べましょう．
+また，自分の研究テーマについて，なぜそのテーマを選んだのか，なぜそのテーマが重要なのか，などを述べましょう．
+\par
+%
+\subsection{本研究の目的}
+前述の背景を踏まえて，研究の目的についても述べましょう．
+具体的には，何を問題にして，何を明らかにしようとしているのか，また，この研究を通じてどのような科学的・工学的な価値があるのか，などを述べましょう．
+%
+\subsection{本論文の構成}
+最後に，論文の構成を示しましょう．
+\par
+例．本論文の構成を以下に示す．
+\label{sec:fundamental}では，～～～の基本原理について述べる．
+\label{sec:proposed}では，本研究で提案する～～～について述べる．
+\label{sec:experiment}では，提案手法を～～～を用いた実験によって評価する．
+\label{sec:discussion}では，実験結果について考察する．
+最後に，\label{sec:conclusion}では，本研究の結論を述べるとともに，今後の課題について検討する．
+%
+%
+\section{基本技術と原理}
+\label{sec:fundamental}
+研究で用いる技術や理論の基本的な事項・原理などについて述べましょう．
+数式や図を適宜用いるとともに，重要な論文があれば引用しましょう．
+%
+\subsection{章立ての注意点その1}
+これ以降の各章はこのように幾つかの節に分け，分かりやすく構成しましょう．
+まったく節のない章は，一般に有り得ません．
+%
+\subsection{章立ての注意点その2}
+同様に，1つしか節のない章も，一般に有り得ません．
+節は2つ以上に分けましょう．
+%
+\section{提案手法}
+\label{sec:proposed}
+この章では，提案する手法やシステムについて述べます．
+数式や図を用いて，提案手法の原理や，提案するシステムの構成について説明しましょう．
+ソースコード等がある場合には，付録に示しましょう．
+ただし，コードが膨大な場合など，紙面に掲載することが不適切な場合には，付録に載せる代わりに，電子データをZIPにまとめて卒研ポートフォリオにアップロードしましょう．
+%
+%
+\section{評価実験}
+\label{sec:experiment}
+この章では，実験について述べます．
+%
+\subsection{実験条件}
+実験条件（使用した機器，ソフトウェア，データ，試料）について述べましょう．
+機器やソフトウェアについては，バージョン情報などを示しましょう．
+データや試料については，データの諸元（どのようなデータを，どのような環境で，どれくらい用いたのか，その他統計量など）を示しましょう．
+後でドラフトを読んだ人が実験を再現できるように，実験手順を詳細に書きましょう．
+また，前述のソースコードと併せて，実験を再現するために必要なデータがあれば，ZIPでまとめて卒研ポートフォリオにアップロードしましょう．
+ただし，moodleの容量制限を越えるような膨大なデータは含める必要はありません．
+%
+\subsection{実験結果}
+実験結果について述べましょう．
+プログラムの実行結果や実験から得られたデータを，図表を用いて分かりやすく示しましょう．
+その際は，「～～～の実験結果を図1に示す」というように，必ず図番号・表番号を明記しましょう．
+%
+\section{考察}
+\label{sec:discussion}
+実験結果から分かることについて説明しましょう．
+考察は論文の contribution を示す最も重要な部分です．
+予め立てた仮説に対して実際の実験結果はどうだったのか，実験結果から科学的・工学的にどのような価値が得られるか，などを明確に述べましょう．
+ドラフトとしては，うまく行かなかった部分も重要な情報ですので，漏れなく書いて下さい．
+%
+%
+\section{結論}
+\label{sec:conclusion}
+\subsection{本研究のまとめ}
+研究のまとめについて述べましょう．
+%
+\subsection{今後の課題}
+今後の課題（システムに追加すべき機能，未解決の問題点，提案手法の発展の可能性など）について述べましょう．
+%
+%
+\begin{thebibliography} {30}
+%
+%
+\bibitem{Gazoudenshi1}
+西田 友是，近藤 邦雄，藤代 一成：
+ビジュアルコンピューティング，
+画像電子学会，東京電機大学出版局(2006).
+%
+\bibitem{Ohtake1}
+Ohtake,Y.,Belyaev,A.G.,Alexa,M.,Turk,G and Seidel,H.-P.:
+Multi-level partition of unity implicits,
+ACM Transactions on Graphics(Porc. SIGGRAPH 2003),
+Vo.22, No.3 pp.\ 463--470(1999).
+%
+\bibitem{Satoh1}
+佐藤 善隆，羽石 秀昭：レベルセット法を用いた医用画像セグメンテーション，
+電子情報通信学会技術研究報告，MI2004-81(2005-1)，pp.\ 1--6(2005).
+%
+\bibitem{Sagawa1}
+佐川 立昌, 池内 克史：符号付距離場の整合化による形状モデル補間手法,
+電子情報通信学会論文誌 D-II，Vol.~J88-D-II, No.~3，pp.\ 541--551(2005).
+%
+\bibitem{Evans1}
+Evans,L.C. and Spruck,J.:
+Motion of level sets by Mean Curvature I,
+J.Diff.Geom., Vo.33, No.635(1991).
+%
+%
+%
+\end{thebibliography}
+%
+%
+%
+%}{
+%
+%
+%
+%付録の始まり
+\appendix
+\section{プログラムソース}
+\begin{itemize}
+\item 提案システムのソースコードなど，重要なものがあればここに掲載しましょう．
+\item ただし，コードが膨大な場合など，紙面に掲載するのが不適切なものは，電子データをZIPにまとめて卒研ポートフォリオにアップロードしましょう．
+\end{itemize}
+%
+\section{設計図}
+\begin{itemize}
+\item 機器の設計図などがあれば，ここに掲載しましょう．
+\item プログラムのフローチャートやUML図などを載せる場合もあります．
+\end{itemize}
+%
+\section{使用したデータ}
+\begin{itemize}
+\item 重要な実験データなどがあれば，ここに掲載しましょう．
+\item ただし，ソースコードと同様に，紙面に掲載するのが不適切なものは，電子データをZIPにまとめて卒研ポートフォリオにアップロードしましょう．
+\end{itemize}
+%
+\end{document}

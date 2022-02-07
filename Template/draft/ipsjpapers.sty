@@ -1,0 +1,1919 @@
+% Copyright (C) 1995-2007 by Hiroshi Nakashima, Yasuki Saito and
+%                            The Editorial Board of the IPSJ Journal
+%
+% ipsjpapers.sty 15-Jun-07 by Hiroshi Nakashima (ver 2.12)
+% (revision history deleted)
+% ipsjpapers.sty 24-Apr-95 by Hiroshi Nakashima (ver 1.0)
+% ipsjpapers.sty 30-Nov-93 by Hiroshi Nakashima
+% ipsjpapers.sty 3-Feb-93 by Yaski Saito
+% compsoft.sty 22-April-92 by Yaski Saito
+% compsoft.sty 18-July-90 by Hideki Isozaki 
+% j-article.sty 10-Feb-89 from report.sty 16-Mar-88
+
+%%%%%% LaTeX Version %%%%%%
+
+% 2.00(1) >>
+%% \ifASCII is true if ASCII version Japanese TeX, which doesn't have
+%% \jintercharskip (H.N.)
+\newif\ifipsj@nonjp \ipsj@nonjpfalse				% 2.12(1a)
+\newif\ifASCII \ASCIIfalse
+\ifx\jintercharskip\undefined \ASCIItrue
+\ifx\kanjiskip\undefined \ipsj@nonjptrue			% 2.12(1a)
+\fi\fi
+\newif\if@LaTeX@e \@LaTeX@efalse				% 1.06(1)
+\newif\if@LaTeX@eN \@LaTeX@eNfalse				% 2.00(1)
+\def\@tempa{LaTeX2e}						% 1.06(1)
+\ifx\fmtname\@tempa \@LaTeX@etrue				% 1.06(1)
+\ifx\xpt\undefined \@LaTeX@eNtrue \fi\fi			% 2.00(1)
+% 2.00(1) <<
+
+
+
+%%%%%% Document Styles %%%%%%
+
+% 2.00(2) >>
+\newif\ifDS@printer \DS@printerfalse
+\newif\ifDS@english \DS@englishfalse
+\newif\ifDS@technote \DS@technotefalse
+\newif\ifDS@preface \DS@prefacefalse
+\newif\ifDS@draft \DS@draftfalse
+\newif\ifDS@techrep \DS@techrepfalse				% 1.05(2)
+\newif\ifDS@sigrecommended \DS@sigrecommendedfalse		% 2.04(1)
+\newif\ifDS@invited \DS@invitedfalse				% 2.06(1)
+\newif\ifDS@abstract \DS@abstractfalse				% 2.07(7)
+\newif\ifDS@private \DS@privatefalse				% 2.07(8)
+\newif\ifDS@anonymous \DS@anonymousfalse			% 2.10(1)
+\newif\ifDS@TBIO \DS@TBIOfalse					% 2.11(1)
+\newif\ifDS@online \DS@onlinefalse				% 2.12(4a)
+
+\if@LaTeX@eN
+\DeclareOption{printer}{\DS@printertrue}			% 2.09(1)
+								% 2.12(2)
+\DeclareOption{english}{\DS@englishtrue}
+\DeclareOption{technote}{\DS@technotetrue}
+\DeclareOption{preface}{\DS@prefacetrue}
+\DeclareOption{draft}{\DS@drafttrue}
+\DeclareOption{techrep}{\DS@techreptrue}
+\DeclareOption{sigrecommended}{\DS@sigrecommendedtrue}		% 2.04(1)
+\DeclareOption{invited}{\DS@invitedtrue}			% 2.06(1)
+\DeclareOption{abstract}{\DS@abstracttrue}			% 2.07(7)
+\DeclareOption{private}{\DS@privatetrue}			% 2.07(8)
+\DeclareOption{anonymous}{\DS@anonymoustrue}			% 2.10(1)
+\DeclareOption{TBIO}{\DS@TBIOtrue \DS@englishtrue}		% 2.11(1)
+\DeclareOption{online}{\DS@onlinetrue \DS@printertrue \DS@englishtrue}
+								% 2.12(4a)
+\DeclareOption{10pt}{\def\@ptsize{0}}
+\DeclareOption{11pt}{\def\@ptsize{1}}
+\DeclareOption{12pt}{\def\@ptsize{2}}
+\ExecuteOptions{10pt}
+\ProcessOptions
+\def\ipsj@warning{\ClassWarning{ipsjpapers}}			% 2.00(3)
+\def\ipsj@error{\ClassError{ipsjpapers}}			% 2.00(3)
+\newskip \old@latex@skip					% 2.00(14)
+\let\@maxsep\old@latex@skip					% 2.00(14)
+\let\@dblmaxsep\old@latex@skip					% 2.00(14)
+
+\else
+\expandafter\ifx\csname ver@ipsjpapers.cls\endcsname\relax
+\typeout{Document Style `ipsjpapers' (ver 2.12) <15 Jun 2007>.}	% 2.05(1)
+\fi % \ifx
+
+\def\ds@printer{\relax}						% 2.09(1)
+\def\ds@english{\DS@englishtrue}
+\def\ds@technote{\DS@technotetrue}
+\def\ds@preface{\DS@prefacetrue}
+\def\ds@draft{\DS@drafttrue}
+\def\ds@techrep{\DS@techreptrue}				% 1.05(2)
+\def\ds@sigrecommended{\DS@sigrecommendedtrue}			% 2.04(1)
+\def\ds@invited{\DS@invitedtrue}				% 2.06(1)
+\def\ds@abstract{\DS@abstracttrue}				% 2.07(7)
+\def\ds@private{\DS@privatetrue}				% 2.07(8)
+\def\ds@anonymous{\DS@anonymoustrue}				% 2.10(1)
+\def\ds@TBIO{\DS@TBIOtrue \DS@englishtrue}			% 2.11(1)
+\def\ds@online{\DS@onlinetrue \DS@printertrue \DS@englishtrue}	% 2.12(4a)
+
+% 1.04(3)>>
+\def\@ptsize{0}
+\@namedef{ds@11pt}{\def\@ptsize{1}}
+\@namedef{ds@12pt}{\def\@ptsize{2}} 
+% 1.04(3)<<
+
+\@options
+\let\ipsj@warning\@warning					% 2.00(3)
+\let\@latex@warning\@warning					% 2.00(3)
+\def\ipsj@error#1#2{\errhlp{#2}\errmessge{#1}}			% 2.00(3)
+\fi % \if@LaTeX@eN
+% 2.00(2) <<
+
+\ifx\@classoptionslist\undefined\else				% 2.03(1) >>
+\def\ipsj@draft@option{draft}
+\def\ipsj@remove@draft@option{\def\@tempb{}%
+	\@for\@tempa:=\@classoptionslist\do{%
+		\ifx\@tempa\ipsj@draft@option\else
+		\edef\@tempb{\@tempb,\@tempa}\fi}%
+	\ifx\@tempb\@empty \def\@classoptionslist{}\else
+	\expandafter\ipsj@remove@draft@ption\@tempb\@nil\fi}
+\def\ipsj@remove@draft@ption,#1\@nil{%
+	\def\@classoptionslist{#1}}
+\ipsj@remove@draft@option
+\fi % \ifx							% 2.03(1) <<
+
+\ifipsj@nonjp \DS@englishtrue \fi				% 2.12(1a)
+
+%%%%%% Basics %%%%%%
+
+\newdimen\@Q \@Q=0.25mm
+
+\lineskip\z@ \normallineskip\z@ 
+\lineskiplimit\z@ \normallineskiplimit\z@
+\abovedisplayskip\z@ \belowdisplayskip\z@
+\abovedisplayshortskip\z@ \belowdisplayshortskip\z@
+
+\def\baselinestretch{1}
+\jot\z@ 
+
+\ifDS@draft\def\next{\input{ipsjdrafts.sty}\endinput}\else\let\next\relax\fi
+\next
+
+\@twosidetrue
+
+%%%%%% Fonts %%%%%%
+% \finvedm(dg)		dm5		\vpt	\tiny		fn-mark
+% \sixdm(dg)		dm6		\vipt	\scriptsize
+% \sevendm(dg)		dm7		\vipt	\footnotesize	f-note, capt
+%	10Q = 7.11304pt -> w(min7) = 6.73550pt
+% \eightdm(dg)		dm8		\viiipt	\small		abst, header
+%	11Q = 7.82434pt -> w(min8) = 7.69772pt
+% \eightdm(dg)half	dm9		\ixpt	\normalsize	main text
+%	12Q = 8.53564pt -> w(min9) = 8.65994
+% \tendm(dg)		dm10		\xpt	\large		sec title
+%	13Q = 9.24695pt -> w(min10) = 9.62216pt
+% \tendm(dg)half	dm10*1095	\xipt	\Large		author names
+%	15Q =10.66956pt -> w(min10*1095) = 10.53625pt
+% (\twlvdm)		(dm12)		\xiipt	\LARGE		e-title
+% \twelvedm(dg)half	dm12*1095	\xivpt	\huge		title
+%			min10*1440
+%	18Q =12.80347pt -> w(min10*1440) = 13.8559pt
+%
+% Note that cm fonts follows LaTeX standard. (e.g. \viiipt -> cmr8, etc.)
+
+% 2.00(4)>>
+\if@LaTeX@e
+\ifASCII
+\def\ipsj@declare@font#1#2#3{{\fontsize{#3}{\z@}#2\selectfont	    % 2.00(5)>>
+	\edef\@tempa{\ifipsj@nonjp \the\font \else \the\jfont \fi}  % 2.12(1b)
+	\expandafter\global\expandafter\let\expandafter#1\@tempa}}  % 2.00(5)<<
+
+\iffalse	% ASCII LaTeX2e printer settings is removed	% 2.12(2a)
+\else		% ASCII LaTeX2e non-printer
+\ifipsj@nonjp							% 2.12(1b)>>
+\ipsj@declare@font\fn@fontv\rmfamily\@vpt
+\ipsj@declare@font\fn@fontvi\rmfamily\@vpt
+\ipsj@declare@font\fn@fontvii\rmfamily\@vpt
+% no declaration for \fn@fontxv					% 2.12(1b)<<
+\else % \ifipsj@nonjp
+\ipsj@declare@font\fn@fontv\mcfamily\@vpt
+\ipsj@declare@font\fn@fontvi\mcfamily\@vpt
+\ipsj@declare@font\fn@fontvii\mcfamily\@vpt
+\ipsj@declare@font\fn@fontxv\gtfamily\@xipt
+\fi\fi %\ifipsj@nonjp\iffalse
+
+\else % \ifASCII = NTT LaTeX2e
+\def\ipsj@declare@font#1#2#3{{\fontsize{#3}{\z@}#2\selectfont	    % 2.00(5)
+	\xdef#1{\expandafter\noexpand\csname\jf@ntn@me\endcsname}}} % 2.00(5)
+\ipsj@declare@font\fn@fontv\dm\@vpt
+\ipsj@declare@font\fn@fontvi\dm\@vpt
+\ipsj@declare@font\fn@fontvii\dm\@vpt
+\ipsj@declare@font\fn@fontxv\dg\@xipt
+\fi % \ifASCII
+% 2.00(4) <<
+
+\else % \if@LaTeX@e = LaTeX 2.09				% 2.00(4)
+%% Fonts for ASCII TeX. (H.N.)
+\ifASCII
+\iffalse	% ASCII LaTeX 2.09 printer settings is removed	% 2.12(2a)
+\else \ifipsj@nonjp\else					% 2.12(1b)
+\font\fivedm		min5
+\font\fivedg		goth5
+\font\sixdm		min6
+\font\sixdg		goth6
+\font\sevendm		min7
+\font\sevendg		goth7
+\font\eightdm		min8
+\font\eightdg		goth8
+\font\eightdmhalf	min9
+\font\eightdghalf	goth9
+\font\tendm		min10
+\font\tendg		goth10
+\font\tendmhalf		min10 scaled\magstephalf
+\font\tendghalf		goth10 scaled\magstephalf
+\font\twelvedm		min10 scaled\magstep1
+\font\twelvedg		goth10 scaled\magstep1
+\font\twelvedmhalf	min10 scaled\magstep2
+\font\twelvedghalf	goth10 scaled\magstep2
+\let\fn@fontv\fivedm
+\let\fn@fontvi\fivedm
+\let\fn@fontvii\fivedm
+\let\fn@fontxv\tendghalf
+
+\fi\fi % \ifipsj@nonjp\iffalse
+
+%% ASCII doesn't have \old@Npt. (H.N.)
+\let\old@@vpt\vpt
+\let\old@@vipt\vipt
+\let\old@@viipt\viipt
+\let\old@@viiipt\viiipt
+\let\old@@ixpt\ixpt
+\let\old@@xpt\xpt
+\let\old@@xipt\xipt
+\let\old@@xiipt\xiipt
+\let\old@@xivpt\xivpt
+
+\ifipsj@nonjp							% 2.12(1b)>>
+\def\old@vpt{\old@@vpt}
+\def\old@vipt{\old@@vipt}
+\def\old@viipt{\old@@viipt}
+\def\old@viiipt{\old@@viiipt}
+\def\old@ixpt{\old@@ixpt}
+\def\old@xpt{\old@@xpt}
+\def\old@xipt{\old@@xipt}
+\def\old@xiipt{\old@@xiipt}
+\def\old@xivpt{\old@@xivpt}					% 2.12(1b)<<
+\else % \ifipsj@nonjp
+\def\old@vpt{\old@@vpt\jspaceskip1zw\relax}
+\def\old@vipt{\old@@vipt\jspaceskip1zw\relax}
+\def\old@viipt{\old@@viipt\jspaceskip1zw\relax}
+\def\old@viiipt{\old@@viiipt\jspaceskip1zw\relax}
+\def\old@ixpt{\old@@ixpt\jspaceskip1zw\relax}
+\def\old@xpt{\old@@xpt\jspaceskip1zw\relax}
+\def\old@xipt{\old@@xipt\jspaceskip1zw\relax}
+\def\old@xiipt{\old@@xiipt\jspaceskip1zw\relax}
+\def\old@xivpt{\old@@xivpt\jspaceskip1zw\relax}
+\fi % \ifipsj@nonjp
+								% 2.00(6)
+								% 1.06(2)
+
+%% ASCII doesn't have \dg nor \dm. (H.N.)
+\ifipsj@nonjp\else						% 2.12(1b)
+\def\dg{\protect\pdg}
+\def\dm{\protect\pdm}
+%% Redefine \gt and \mc
+\def\gt{\protect\pdg}
+\def\mc{\protect\pdm}
+\let\pdm\relax
+\fi % \ifipsj@nonjp
+
+\else % \ifASCII
+%% Fonts for NTT jTeX
+%% \magstephalf and \magstep1 may cause trouble in older versions.
+
+\jfont\fivedm=dm5
+\jfont\fivedg=dg5
+\jfont\sixdm=dm6
+\jfont\sixdg=dg6
+\jfont\sevendm=dm7
+\jfont\sevendg=dg7
+\jfont\eightdm=dm8
+\jfont\eightdg=dg8
+\jfont\eightdmhalf=dm9
+\jfont\eightdghalf=dg9
+\jfont\tendm=dm10
+\jfont\tendg=dg10
+\jfont\tendmhalf=dm10 scaled 1095
+\jfont\tendghalf=dg10 scaled 1095
+\jfont\twelvedm=dm12
+\jfont\twelvedg=dg12
+\jfont\twelvedmhalf=dm12 scaled 1095
+\jfont\twelvedghalf=dg12 scaled 1095
+\let\fn@fontv\fivedm
+\let\fn@fontvi\fivedm
+\let\fn@fontvii\fivedm
+\let\fn@fontxv\tendghalf
+								% 1.06(3)
+\fi % \ifASCII
+\fi % \if@LaTeX@e
+
+\ifx\jfsize\undefined \newcount\jfsize \fi			% 1.06(2)
+
+\ifASCII						% 1.06(3),2.00(6)>>
+\ifipsj@nonjp\else						% 2.12(1b)
+\let\setjglues\relax
+\let\jintercharskip\kanjiskip
+\let\jasciikanjiskip\xkanjiskip
+\let\jmathkanjiskip\xkanjiskip
+\newdimen\jspaceskip
+
+\def\defjintercharskip#1#2#3#4{\@asciiwarning{\defjintercharskip}}
+\def\defjasciikanjiskip#1#2#3#4{\@asciiwarning{\defjasciicharskip}}
+\def\defmathkanjiskip#1#2#3#4{\@asciiwarning{\defmathcharskip}}
+\def\defjspaceskip#1#2#3#4{\@asciiwarning{\defjspaceskip}}
+							
+\def\@asciiwarning#1{\ipsj@warning{\string#1\space		% 2.00(3)
+	is not supported in ASCII version}}
+							% 1.06(3),2.00(6)<<
+\fi % \ifipsj@nonjp
+\else % \ifASCII						% 2.00(7)>>
+\if@LaTeX@e
+\ipsj@declare@font\fn@eightdmhalf\dm\@ixpt
+\ipsj@declare@font\fn@eightdghalf\dg\@ixpt
+\else
+\def\fn@eightdmhalf{\eightdmhalf}
+\def\fn@eightdghalf{\eightdghalf}
+\fi % \if@LaTeX@e
+\ifx\setjglues\undefined\else
+\expandafter\defjintercharskip\fn@eightdmhalf{0pt}{1.4pt}{0.5pt}
+\expandafter\defjintercharskip\fn@eightdghalf{0pt}{1.4pt}{0.5pt}
+\expandafter\defjasciikanjiskip\fn@eightdmhalf{2pt}{1pt}{1pt}
+\expandafter\defjasciikanjiskip\fn@eightdghalf{2pt}{1pt}{1pt}
+\expandafter\defjmathkanjiskip\fn@eightdmhalf{2pt}{1pt}{1pt}
+\expandafter\defjmathkanjiskip\fn@eightdghalf{2pt}{1pt}{1pt}
+\fi % \if@LaTeX@e						% 2.00(7)<<
+\fi % \ifASCII							% 2.00(4)
+
+\if@LaTeX@e							% 2.00(8)>>
+\if@LaTeX@eN
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\DeclareRobustCommand*{\cal}{\@fontswitch{\relax}{\mathcal}}
+\DeclareRobustCommand*{\mit}{\@fontswitch{\relax}{\mathnormal}}
+\ifASCII \ifipsj@nonjp\else					% 2.12(1b)
+\DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
+\DeclareOldFontCommand{\gt}{\normalfont\gtfamily}{\mathgt}
+\fi\fi\fi % \ifipsj@nonjp\ifASCII\if@LaTeX@eN
+
+\ifASCII \ifipsj@nonjp\else					% 2.12(1b)
+\def\dm{\mc}
+\def\dg{\gt}
+\fi\fi\fi % \ifipsj@nonjp\ifASCII\if@LaTeX@e			% 2.00(8)<<
+
+%%%%%% Basic Font Size Macros %%%%%%
+
+\if@LaTeX@e					% 1.06(4),2.00(9),2.04(3)>>
+\def\@setsize#1#2#3#4{\@setfontsize#1{#4}{#2}\ipsj@setjspaceskip}
+\let\ipsj@setjspaceskip\relax			% 2.12(1b)>>
+\ifASCII \ifipsj@nonjp\else
+\def\ipsj@setjspaceskip{\jspaceskip1zw\relax}
+\fi\fi % \ifipsj@nonjp\ifASCII			% 2.12(1b)<<
+						% 1.06(4),2.00(9),2.04(3)<<
+
+%% \vipt etc. are redefined to use appropriate Japanese fonts.
+\else % \if@LaTeX@e						% 2.00(9)
+\ifipsj@nonjp\else						% 2.12(1b)
+\def\vpt{\old@vpt\fivedm\let\pdg\fivedg\let\pdm\fivedm\jfsize=5\relax}
+\def\vipt{\old@vipt\sixdm\let\pdg\sixdg\let\pdm\sixdm\jfsize=6\relax}
+\def\viipt{\old@viipt\sevendm\let\pdg\sevendg\let\pdm\sevendm\jfsize=7\relax}
+\def\viiipt{\old@viiipt\eightdm\let\pdg\eightdg\let\pdm\eightdm\jfsize=8\relax}
+\def\ixpt{\old@ixpt\eightdmhalf\let\pdg\eightdghalf\let\pdm\eightdmhalf
+	\jfsize=9\relax \@ixptboldmath}				% 1.02(2)
+\def\xpt{\old@xpt\tendm\let\pdg\tendg\let\pdm\tendm\jfsize=10\relax}
+\def\xipt{\old@xipt\tendmhalf\let\pdg\tendghalf\let\pdm\tendmhalf\jfsize=11
+	\relax}
+\def\xiipt{\old@xiipt\twelvedm\let\pdg\twelvedg\let\pdm\twelvedm
+	\jfsize=12\relax}
+\def\xivpt{\old@xivpt\twelvedmhalf\let\pdg\twelvedghalf\let\pdm\twelvedmhalf
+	\jfsize=14\relax}
+\fi\fi % \ifipsj@nonjp\if@LaTeX@e				% 2.00(9)
+
+\if@LaTeX@e							% 1.06(5)
+\let\@ixptboldmath\relax					% 1.06(5)
+\else								% 1.06(5)
+% 1.02(2) >>
+\iffalse	% printer setting removed			% 2.12(2a)
+\else
+\def\@ixptboldmath{%
+	\def\unboldmath{\everymath{}\everydisplay{}\@nomath\unboldmath
+		\textfont\@ne\ninmi 
+		\textfont\tw@\ninsy \textfont\lyfam\ninly
+		\@boldfalse}\@boldfalse
+% 1.03(1) >>
+	\def\boldmath{\@ifundefined{ninmib}{\global\font\ninmib\@mbi 
+		\global\font\ninsyb\@mbsy\relax
+		\global\font\ninlyb\@lasyb\relax
+		\@addfontinfo\@ixpt
+			{\def\boldmath{\everymath{\mit}\everydisplay{\mit}%
+				\@prtct\@nomathbold
+				\textfont\@ne\ninmib \textfont\tw@\ninsyb 
+				\textfont\lyfam\ninlyb \@prtct\@boldtrue}}}{}%
+	\@ixpt\boldmath}}
+% 1.03(1) <<
+\fi % \iffalse
+% 1.02(2) <<
+\fi % \if@LaTeX@e						% 1.06(5)
+
+
+%%%%%% Font Size Macros %%%%%%
+
+\def\fs@setsize#1#2#3#4{\normalsize\dimen@\normalbaselineskip
+	\@ifstar{\@setsize{#1}{\dimen@}{#3}{#4}}%
+		{\@setsize{#1}{#2}{#3}{#4}}}
+
+% s = (3*b - (h' + d') - (h + d))/2
+% s_a = s + h' + d - b
+% s_b = s + h + d' - b
+\def\sec@setskips#1{\setbox0\hbox{\fs@sec\bf#1}\setbox1\hbox{#1}
+	\@tempdima3\baselineskip
+	\advance\@tempdima-\ht0 \advance\@tempdima-\dp0
+	\advance\@tempdima-\ht1 \advance\@tempdima-\dp1
+	\divide\@tempdima\tw@ \advance\@tempdima-\baselineskip
+	\@tempdimb\@tempdima
+	\advance\@tempdima\ht0 \advance\@tempdima\dp1
+	\advance\@tempdimb\ht1 \advance\@tempdimb\dp0
+	\edef\sec@aboveskip{\the\@tempdima}
+	\edef\sec@belowskip{\the\@tempdimb}}
+
+\ifDS@english
+% size		pt	\baselineskip	  size		\?pt	\baselineskip
+% \normalsize	10	16Q		  \large	11	18Q (*)
+% \small	 9	15Q		  \Large	12	22Q
+% \footnotesize	 8	13Q		  \LARGE	14	26Q (*)
+% \scriptsize	 6	8pt (*)		  \huge		18	30Q (*)
+% \tiny		 5	6pt (*)		  \Huge		18	30Q (*)
+% * : not measured
+
+\def\@normalsize{\@setsize\normalsize{16\@Q}\xpt\@xpt}
+\def\small{\fs@setsize\small{15\@Q}\ixpt\@ixpt}
+\def\footnotesize{\fs@setsize\footnotesize{13\@Q}\viiipt\@viiipt}
+\def\scriptsize{\@setsize\scriptsize{8pt}\viipt\@viipt}
+\def\tiny{\@setsize\tiny{6pt}\vpt\@vpt}
+\def\large{\@setsize\Large{18\@Q}\xipt\@xipt}
+\def\Large{\@setsize\LARGE{22\@Q}\xiipt\@xiipt}
+\def\LARGE{\@setsize\LARGE{26\@Q}\xivpt\@xivpt}
+\def\huge{\@setsize\Huge{30\@Q}\xviipt\@xviipt}
+\let\Huge\huge
+
+\ifDS@techrep							% 1.05(2)>>
+\def\@normalsize{\@setsize\normalsize{17\@Q}\xpt\@xpt}
+\fi								% 1.05(2)<<
+
+\if@LaTeX@e							% 2.00(10)>>
+\let\normalsize\@normalsize
+\fi								% 2.00(10)<<
+
+\let\fs@footnote\footnotesize
+\let\fs@caption\footnotesize
+\let\fs@table\footnotesize
+\let\fs@eabst\footnotesize
+\let\fs@header\footnotesize
+\let\fs@footer\footnotesize
+\let\fs@bibliography\small
+\let\fs@subsec\normalsize
+\let\fs@sec\normalsize
+\let\fs@type\large
+\let\fs@eauthor\large
+\let\fs@title\Large
+
+\@normalsize
+
+\sec@setskips{A}
+
+\else % \ifDS@english
+% size		pt	\baselineskip	  size		\?pt	\baselineskip
+% \normalsize	 9	19Q		  \large	10	19Q
+% \small	 8	14Q		  \Large	11	22Q
+% \footnotesize	 7	14Q		  \LARGE	12	18Q
+% \scriptsize	 6	8pt (*)		  \huge		14	26Q
+% \tiny		 5	6pt (*)		  \Huge		14	26Q
+% * : not measured
+
+\def\@normalsize{\@setsize\normalsize{19\@Q}\ixpt\@ixpt}
+\def\small{\fs@setsize\small{14\@Q}\viiipt\@viiipt}
+\def\footnotesize{\fs@setsize\footnotesize{14\@Q}\viipt\@viipt}
+\def\scriptsize{\@setsize\scriptsize{8pt}\vipt\@vipt}
+\def\tiny{\@setsize\tiny{6pt}\vpt\@vpt}
+\def\large{\@setsize\large{19\@Q}\xpt\@xpt}
+\def\Large{\@setsize\Large{22\@Q}\xipt\@xipt}
+\def\LARGE{\@setsize\LARGE{18\@Q}\xiipt\@xiipt}
+\def\huge{\@setsize\Huge{26\@Q}\xivpt\@xivpt}
+\let\Huge\huge
+
+\ifDS@techrep							% 1.05(2)>>
+\def\@normalsize{\@setsize\normalsize{17\@Q}\ixpt\@ixpt}
+\fi								% 1.05(2)<<
+
+\if@LaTeX@e							% 2.00(10)>>
+\let\normalsize\@normalsize
+\fi								% 2.00(10)<<
+
+\let\fs@footnote\footnotesize
+\let\fs@caption\footnotesize
+\let\fs@table\footnotesize
+\let\fs@abst\small
+\def\fs@eabst{\small\baselineskip13\@Q}
+\let\fs@header\small
+\let\fs@footer\small
+\let\fs@subsec\normalsize
+\def\fs@bibliography{\normalsize\baselineskip16\@Q}
+\let\fs@sec\large
+\let\fs@type\fn@fontxv
+\let\fs@author\Large
+\def\fs@eauthor{\Large\baselineskip20\@Q}			% 2.12(7)
+\let\fs@etitle\LARGE
+\let\fs@title\huge
+
+\@normalsize 
+								% 2.00(7)
+\ifx\setjglues\undefined\else
+\setjglues
+\fi
+
+% \sec@setskips{<A of hiragana>} is moved to ipsjcommon		% 2.12(1c)
+\fi % \ifDS@englisth
+
+\if@LaTeX@e\else \ifipsj@nonjp\else			% 2.00(11),2.12(1b)
+\let\latex@bf\bf						% 1.06(6)
+\def\bf{\latex@bf \dg}						% 1.06(6)
+\fi\fi								% 2.00(11)
+
+
+%%%%%% Page Layout Parameters %%%%%%
+
+\newdimen\@mojihaba
+\ifipsj@nonjp \let\jspaceskip\@mojihaba	\fi			% 2.12(1b)
+
+\ifDS@printer							% 2.12(2b) >>
+\voffset=-20mm
+\hoffset=-14mm
+\fi								% 2.12(2b) <<
+
+\headheight 12\@Q
+
+% We want to allow a line containing $\displaystyle X^X$ to be a first line.
+\setbox0\hbox{$\displaystyle X^X$}
+\topskip\ht0
+
+\ifdim\maxdepth<\dp\strutbox \maxdepth\dp\strutbox \@maxdepth\maxdepth\fi
+
+\@tempswafalse							% 1.05(2)>>
+\ifDS@english \ifDS@techrep \else \@tempswatrue \fi\fi
+\if@tempswa							% 1.05(2)<<
+\topmargin 138\@Q \advance\topmargin-1in
+
+% \textheight = 53\baselineskip + \topskip + epsilon(100sp)
+\textheight53\baselineskip \advance\textheight\topskip \advance\textheight100sp
+
+% \headsep = 24Q - \topskip
+\headsep28\@Q \advance\headsep-\topskip				% 2.02(2)
+
+% Only first page has page number (footer) at the bottom
+\footskip 27\@Q
+
+\@mojihaba13\@Q
+
+\else % \if@tempswa
+\topmargin 131\@Q \advance\topmargin-1in
+
+% \textheight = 45\baselineskip + \topskip + epsilon(100sp)
+\textheight45\baselineskip \advance\textheight\topskip \advance\textheight100sp
+
+\ifDS@techrep							% 1.05(2)>>
+\textheight50\baselineskip \advance\textheight\topskip \advance\textheight100sp
+\fi % \ifDS@techrep						% 1.05(2)<<
+
+% \headsep = 28Q - \topskip
+\headsep28\@Q \advance\headsep-\topskip
+
+% Only first page has page number (footer) at the bottom
+\footskip24\@Q
+
+\@mojihaba12\@Q
+\fi % \if@tempswa
+
+\columnsep30\@Q
+
+% \textwidth - \columnwidth = 24 * 12Q * 2 + \columnsep = 606Q
+\textwidth606\@Q
+\columnseprule0pt
+
+\oddsidemargin210mm \advance\oddsidemargin-\textwidth \divide\oddsidemargin\tw@
+\advance\oddsidemargin-1in \evensidemargin\oddsidemargin
+
+\skip\footins\baselineskip \advance\skip\footins-.5\@mojihaba
+% \footnotesep = \baselineskip - depth(\strutbox)
+{\fs@footnote
+	\footnotesep\baselineskip
+	\global\advance\footnotesep-\dp\strutbox}
+
+\def\footnoterule{{\fs@footnote\kern-\dp\strutbox \hrule \kern-.4\p@
+	\kern\dp\strutbox}}
+
+\floatsep \baselineskip \textfloatsep \baselineskip 
+\intextsep \baselineskip \@maxsep \baselineskip
+\dblfloatsep \baselineskip \dbltextfloatsep \baselineskip
+\@dblmaxsep \baselineskip
+\@fptop 0pt plus 1fil \@fpsep 0pt plus 2fil \@fpbot 0pt plus 1fil 
+\@dblfptop 0pt plus 1fil \@dblfpsep 0pt plus 2fil \@dblfpbot 0pt plus 1fil
+
+\parskip\z@ \parindent\@mojihaba
+\@lowpenalty 51 \@medpenalty 151 \@highpenalty 301 
+\@beginparpenalty -\@lowpenalty \@endparpenalty -\@lowpenalty
+\@itempenalty -\@lowpenalty 
+
+
+%%%%%% Title and Authors %%%%%%
+%
+% Format of title, author names and abstract.
+%
+%	\huge\bf <Japanese title>
+%	\vskip 32Q
+%	\Large <Japanese author names>
+%	\vskip 32Q
+%	\small <Japanese abstract>
+%	\vskip 34Q
+%	\LARGE\bf <English title>
+%	\vskip 28Q
+%	\Large\sc <English author names>
+%	\vskip 28Q
+%	\small <English abstract>
+%	\vskip 25Q
+
+% 2.07(3)>>
+\def\ipsj@ohcheck#1#2#3{\fs@header\hskip12\@Q#1\qquad#2\qquad#3\hskip12\@Q}
+\def\ipsj@ohcvolno{Vol.~00\hskip12\@Q No.~SIG\ 00(\ipsj@sig@code\ 00)}
+
+\newif\ifipsj@trans \ipsj@transfalse				% 2.12(4f)
+\def\maketitle{\let\ipsj@oddhead@t\ipsj@oddhead@a
+	\ifipsj@trans
+	    \settowidth\@tempdima{%
+		\ipsj@ohcheck\ipsj@ohcvolno\@titlestring\ipsj@ohcvolno}%
+	    \ifdim\@tempdima>\textwidth
+		\let\ipsj@oddhead@t\ipsj@oddhead@b
+		\settowidth\@tempdima{%
+		    \ipsj@ohcheck\ipsj@ohcvolno\@titlestring{000}}%
+		\ifdim\@tempdima>\textwidth
+			\ipsj@warning{%				% 2.00(3)
+			\string\title\space for headding is too wide}%
+	    \fi \fi
+	\else
+	    \settowidth\@tempdima{\fs@header
+		\hskip12\@Q Vol.~00\hskip12\@Q No.~00\qquad\@titlestring\qquad
+		Vol.~00\hskip12\@Q No.~00\hskip12\@Q}
+	    \ifdim\@tempdima>\textwidth
+		\ipsj@warning{%					% 2.00(3)
+		\string\title\space for headding is too wide}%
+	\fi \fi
+	\par\twocolumn[\@maketitle]\thispagestyle{myheadings}\@thanks}
+% 2.07(3)<<
+
+% default title header
+
+\def\title{\@dblarg{\@xtitle}}
+\def\@xtitle[#1]#2{\gdef\@title{#2}%
+	{\def\protect{\noexpand\protect\noexpand}%
+		\ifDS@english\def\\{\unskip\ \ignorespaces}%
+		\else\def\\{\unskip\ignorespaces}\fi
+		\xdef\@titlestring{#1}}}			% 2.07(3)
+
+\def\@title{\mkt@warning\title}\def\@titlestring{}
+\long\def\author#1{\long\gdef\@author{#1}}
+\def\@author{\mkt@warning\author}
+
+\newbox\@abstractbox
+%% Introduce \@titlewidth because we now use this dimen repeatedly. (H.N.)
+%% \@titlewidth = 44 * 11Q = 484Q
+\newdimen\@titlewidth \@titlewidth 484\@Q
+
+\def\abstract{\global\let\@abstract\relax
+	\global\setbox\@abstractbox\hbox\bgroup
+		\begin{minipage}[b]{\@titlewidth}\fs@abst\parindent11\@Q}
+\def\endabstract{\end{minipage}\egroup}
+\def\@abstract{\mkt@warning{abstract env}}
+
+%% We need English title, author name(s) and abstract. (H.N.)
+\def\etitle#1{\gdef\@etitle{#1}}
+\def\@etitle{\mkt@warning\etitle}
+\long\def\eauthor#1{\long\gdef\@eauthor{#1}}
+\def\@eauthor{\mkt@warning\eauthor}
+
+\newbox\@eabstractbox
+\def\eabstract{\global\let\@eabstract\relax
+	\global\setbox\@eabstractbox\hbox\bgroup
+		\begin{minipage}[b]{\@titlewidth}\fs@eabst\parindent11\@Q}
+\let\endeabstract\endabstract
+\def\@eabstract{\mkt@warning{eabstract env}}
+
+\ifDS@english
+\let\author\eauthor \let\abstract\eabstract
+\let\@eauthor\@author \let\@eabstract\@abstract
+\fi
+
+\def\mkt@warning#1{\ipsj@warning{Missing \string#1}}		% 2.00(3)
+
+\newdimen\mkt@prevdepth
+\newbox\mkt@titlebox
+\def\@maketitle{\setbox\mkt@titlebox\vbox{
+	\ifDS@english \ifDS@preface
+		\hbox{}\vskip60\@Q \vskip-\headsep \vskip-\baselineskip
+	\else
+		\hbox{}\vskip26\@Q \vskip-\headsep \vskip-\baselineskip
+		\leftline{\fs@type\it
+		  	\ifDS@TBIO \ipsj@TBIO@pcatref		% 2.11(2)
+			\else\ifDS@technote Technical Note
+                        \else\ifDS@invited Invited Paper        % 2.06(1)
+			\else\ifDS@sigrecommended		% 2.04(1)
+				Recommended Paper		% 2.04(1)
+			\else\ifDS@abstract			% 2.07(7)
+				Abstract			% 2.07(7)
+			\else\ifDS@techrep\else			% 2.02(1)
+				Regular Paper\fi\fi\fi\fi\fi\fi}% 2.06(1)
+%								% 2.04(1)
+		\vskip32\@Q \vskip-\baselineskip \fi
+	\else							% 2.04(1) >>
+	\@tempswafalse	\ifDS@technote\@tempswatrue\fi
+			\ifDS@sigrecommended\@tempswatrue\fi
+                        \ifDS@invited\@tempswatrue\fi           % 2.06(1)
+			\ifDS@abstract\@tempswatrue\fi		% 2.07(7)
+	\if@tempswa
+		\vskip18\@Q \vskip-\headsep
+		\leftline{\vbox to28\@Q{\hrule height.8pt\vss
+			\hbox{\hskip7\@Q \fs@type
+				\ifDS@technote \ipsj@j@technote	% 2.12(1c)>>
+                                \else\ifDS@invited
+					\ipsj@j@invited		% 2.06(1)
+				\else\ifDS@sigrecommended
+					\ipsj@j@sigrec		% 2.06(1)
+				\else \ipsj@j@talkabst		% 2.07(7)
+				\fi\fi\fi			% 2.12(1c)<<
+				\hskip7\@Q}\vss\hrule height.8pt}}
+%								% 2.04(1) <<
+		\vskip40\@Q \vskip-\baselineskip
+	\else
+		\hbox{}\vskip60\@Q \vskip-\headsep \vskip-\baselineskip
+	\fi\fi
+	\@tempswafalse \ifDS@english\else\ifDS@preface\@tempswatrue\fi\fi
+	\mkt@maketitle{\fs@title\bf}\@title\title
+	\affi@labels
+	\ifDS@english\else
+	\vskip-\mkt@prevdepth \nointerlineskip\vskip32\@Q
+	\centerline{\vbox{\centering\hsize\@titlewidth\fs@author
+		\mkt@makeauthor}}
+	\ifDS@preface\else
+	\vskip-\prevdepth \nointerlineskip\vskip32\@Q
+	\centerline{\@abstract\box\@abstractbox}
+	\vskip-\prevdepth \nointerlineskip\vskip34\@Q
+	\mkt@maketitle{\fs@etitle\bf}\@etitle\etitle
+	\fi\fi
+	\if@tempswa\else
+	\vskip-\mkt@prevdepth \nointerlineskip\vskip28\@Q
+	\centerline{\vbox{\centering\hsize\@titlewidth\fs@eauthor\sc
+		\mkt@makeeauthor}}
+	\fi
+	\ifDS@preface\else
+	\vskip-\prevdepth \nointerlineskip\vskip28\@Q
+	\centerline{\@eabstract\box\@eabstractbox}
+	\fi
+	\vskip-\prevdepth \nointerlineskip\vskip25\@Q}
+	\@tempdimb\ht\mkt@titlebox \advance\@tempdimb\dp\mkt@titlebox
+	\@tempcnta\@tempdimb \@tempcntb\baselineskip
+	\divide\@tempcnta\@tempcntb \@tempdima\@tempcnta\baselineskip
+	\advance\@tempdima-\@tempdimb
+	\box\mkt@titlebox
+	\ifdim\@tempdima=\z@\else\advance\@tempdima\baselineskip
+		\vskip\@tempdima\fi}
+
+%% \mkt@maketitle puts Japanese/English title, whose lines should be
+%% properly broken with \\ by the user.  The result is flushed to left, then
+%% centered with respect to the longest line. (H.N.)
+\def\mkt@maketitle#1#2#3{\setbox\@tempboxa\vtop{
+	\def\\{\unskip\egroup\hbox\bgroup\ignorespaces}
+		#1\hbox\bgroup#2\unskip\egroup
+		\global\mkt@prevdepth\prevdepth}
+	\@tempdima\textwidth\advance\@tempdima-4\@mojihaba
+	\ifdim\wd\@tempboxa>\@tempdima
+		\ipsj@warning{%					% 2.00(3)
+			\string#3 is too wide. Break line(s) by \string\\}\fi
+	\centerline{\box\@tempboxa}}
+
+% Assignment of Japanese author names to lines:
+% 1 -> 1, 2 -> 2, 3 -> 3, 4 -> 2+2, 5 -> 3+2, 6 -> 3+3, 7 -> 3+2+2, 8 -> 3+3+2,
+% ...
+% Rule for N authors (N > 2, q := N div 3)
+%	N mod 3 = 0 -> 3 * q
+%	N mod 3 = 1 -> 3 * (q - 2) + 2 + 2
+%	N mod 3 = 2 -> 3 * (q - 1) + 2
+
+\newcount\mkt@cnta\newcount\mkt@cntb
+\newcount\mkt@sname\newcount\mkt@gname
+\newbox\mkt@boxa
+\newdimen\mkt@namewidth
+\def\mkt@makeauthor{\let\member\@gobble \let\nomember\relax
+	\let\stmember\@gobble	% Those are not necessary in final manuscript.
+	\def\@makefnmark{\smash{\rlap{$^{\affi@thefnmark}$}}}%	% 2.12(7)
+	\gdef\affi@thefnmark{}\leavevmode\let\+\ignorespaces
+	\settowidth\@tempdima{\ifipsj@nonjp x\else\ipsj@j@a \fi}% 2.12(1c)
+	\mkt@namewidth7\@tempdima\@tempcnta\z@
+	\expandafter\mkt@countauthor\@author\and\@nil\and
+	\ifnum\@tempcnta=\@ne\let\mkt@anhbox\mkt@anhboxc\mkt@makesingleauthor
+	\else
+		\@tempcntb\@tempcnta \divide\@tempcntb\thr@@
+		\multiply\@tempcntb\thr@@ \advance\@tempcntb-\@tempcnta
+		\ifnum\@tempcntb=\m@ne\relax\@tempcntb\tw@\else\@tempcntb\z@\fi
+		\mkt@cnta\thr@@
+		\let\mkt@anhbox\mkt@anhboxl
+		\expandafter\mkt@makemultiauthor\@author\and\and\fi}
+\def\mkt@countauthor#1\and{\def\@tempa{#1}\ifx\@tempa\@nnil\let\next\relax
+	\else\advance\@tempcnta\@ne \let\next\mkt@countauthor\fi\next}
+
+% If single author, author name has 9 KC width instead of 7.
+\def\mkt@makesingleauthor{\divide\mkt@namewidth7\multiply\mkt@namewidth9\relax
+	\expandafter\mkt@putauthor\@author\+ \@nil}
+
+\def\mkt@makemultiauthor#1\and{\ifnum\@tempcnta=\z@\unskip\let\next\relax\else
+	\leavevmode
+	\advance\mkt@cnta\m@ne \advance\@tempcnta\m@ne
+	\ifnum\mkt@cnta=\z@\mkt@maleft{#1}\mkt@cnta\thr@@\else
+	\ifnum\@tempcnta=\@tempcntb\mkt@maleft{#1}\mkt@cnta\tw@\else
+	\mkt@putauthor#1\+ \@nil\let\mkt@anhbox\mkt@anhboxc\fi\fi
+	\let\next\mkt@makemultiauthor\fi\next}
+\def\mkt@maleft#1{\let\mkt@anhbox\mkt@anhboxr\mkt@putauthor#1\+ \@nil
+	\par\let\mkt@anhbox\mkt@anhboxl}
+
+% Japanese author name format:
+%	Non Japanese : As is.
+%	Japanese w/o s/g delimitor : As is with warning.
+%	Japanese (s+g>6) : As is.
+%	Japanese (s+g<7) : Give 1-KC space to s/g delimitor, then insert
+%		infinit stretch between each character pair, assuming the
+%		s/g delimitor as a charcter, to make the name have 7-KC
+%		width.   An exception is 2s + 2g case, in which s/g
+%		delimitor has 0 width in order to have the result
+%		"S_S_G_G".
+
+\def\mkt@putauthor#1 #2\@nil{%
+	\ifipsj@nonjp \mkt@anhbox{#1 #2}\else
+	\setbox\@tempboxa\hbox{\let\affiref\@gobble \let\mkt@warning\@gobble
+		\jintercharskip\z@#1#2}%
+	\setbox\mkt@boxa\hbox{\let\affiref\@gobble \let\mkt@warning\@gobble
+		\jintercharskip1cm#1#2}%
+	\ifdim\wd\@tempboxa=\wd\mkt@boxa \mkt@anhbox{#1 #2}\else
+						% probably no Kanjis
+	\def\@tempa{#2}\ifx\@tempa\empty	% without space btwn s/g-name
+		{\let\affiref\@gobble \def\+{}%
+			\ipsj@warning{Author name #1 doesn't have a space}}%
+								% 2.00(3)
+		\mkt@anhbox{#1}\else
+	\mkt@getnamewidth\mkt@sname{#1}\mkt@getnamewidth\mkt@gname{#2}%
+	\mkt@cntb\mkt@sname \advance\mkt@cntb\mkt@gname
+	\ifnum\mkt@cntb>6\relax\mkt@anhbox{#1\ #2}\else
+	\jintercharskip\fill%
+	\@tempskipa\@tempdima plus2fill\relax
+	\ifnum\mkt@sname=\tw@ \ifnum\mkt@gname=\tw@ \@tempskipa\fill\fi\fi
+	\hbox to\mkt@namewidth{#1\hskip-\lastskip
+		\hskip\@tempskipa#2\hskip-\lastskip\@makefnmark}\fi\fi\fi
+	\fi
+	\gdef\affi@thefnmark{}\hskip\columnsep}
+
+% When an author name is formatted "as is", the following macros are used
+% according to their position (left, right, or center).
+\def\mkt@anhboxl#1{\hbox to\mkt@namewidth{\hss#1\@makefnmark}}
+\def\mkt@anhboxr#1{\hbox to\mkt@namewidth{#1\@makefnmark\hss}}
+\def\mkt@anhboxc#1{\setbox\@tempboxa\hbox{#1\@makefnmark}%
+	\ifdim\wd\@tempboxa>\mkt@namewidth\box\@tempboxa
+	\else\hbox to\mkt@namewidth{\hss\box\@tempboxa\hss}\fi}	% 2.08(1)
+
+\def\mkt@getnamewidth#1#2{\setbox\@tempboxa\hbox{\let\affiref\@gobble#2}%
+	\@tempdimb\wd\@tempboxa
+	\advance\@tempdimb.5\@tempdima #1\@tempdimb \mkt@cntb\@tempdima
+	\divide#1\mkt@cntb}
+
+% English author name format
+%	1 -> <name-1>^*
+%	2 -> <name-1>^* and~<name-2>^*
+%	3 or more -> <name-1>,^* <name-2>,^* ... <name-n-1>^* and~<name-n>^*
+% (be careful the position of comma).
+%
+% No special tricks for assignment names to line.  Names are simply put in a
+% \centering paragraph.
+
+\def\mkt@makeeauthor{\let\member\@gobble \let\nomember\relax
+	\let\stmember\@gobble	% Those are not necessary in final manuscript.
+	\leavevmode\let\mkt@and\relax\gdef\affi@thefnmark{}%
+	\def\@thefnmark{\affi@thefnmark}%
+	\expandafter\mkt@imakeeauthor\@eauthor\and\@nil\and}
+\def\mkt@imakeeauthor#1\and#2\and{\def\@tempa{#2}\ifx\@tempa\@nnil
+		#1\@makefnmark\let\next\relax
+	\else
+		\def\@tempb{#1}\def\next{\mkt@iimakeeauthor#2\and}%
+	\fi\next}
+\def\mkt@iimakeeauthor#1\and{\def\@tempa{#1}\ifx\@tempa\@nnil
+		\@makefnmark\ {\rm{and}~}\gdef\affi@thefnmark{}\hbox{\@tempb}%
+		\@makefnmark\let\next\relax
+	\else
+		\mkt@and\hbox{\@tempb}\let\mkt@and\mkt@andmid
+		\let\next\mkt@iimakeeauthor
+	\fi\def\@tempb{#1}\next}
+\def\mkt@andmid{,\@makefnmark\ \gdef\affi@thefnmark{}}
+
+% Macros to specify author's affiliation easily.
+% 2.12(7)>>
+\newcounter{affi@footnote} \c@affi@footnote\z@
+\newcounter{affi@pfootnote} \c@affi@pfootnote\z@
+\def\affilabel{\affi@deflabels\affi@affilabel}
+\def\paffilabel{\affi@deflabels\affi@paffilabel}
+\def\affi@deflabels#1#2#3{{\def\protect{\noexpand\protect\noexpand}%
+	\let\affi@affilabel\relax \let\affi@paffilabel\relax \let\\\relax
+	\xdef\affi@labels{\affi@labels#1{#2}{#3}}}}
+\def\affi@labels{}
+\def\affi@affilabel{\begingroup \affi@label{affi@footnote}\@makefnmarkdagger}
+\def\affi@paffilabel#1#2{\begingroup
+	\def\protect{\noexpand\protect\noexpand}%
+	\def\\{\noexpand\\Presently with \ignorespaces}%
+	\edef\@tempa{\ifDS@english Presently with \else		% 1.04(1d)
+		\ipsj@j@presently\fi#2}%			% 2.12(1c)
+	\affi@label{affi@pfootnote}\@makefnmarkast{#1}\@tempa}
+\def\affi@label#1#2#3#4{\stepcounter{#1}%
+	\@ifundefined{affi@r@#3}%
+		{\expandafter\xdef\csname affi@r@#3\endcsname{%
+			\csname the#1\endcsname}}%
+		{\ipsj@warning{Affiliation label `#3' multiply defined}}%
+								% 2.00(3)
+	\let\affi@footnotetext\relax\let\\\relax
+	\def\protect{\noexpand\protect\noexpand}%
+	\xdef\@thanks{\@thanks
+		\affi@footnotetext
+			{\csname the#1\endcsname}{\protect#2}{#4}}\endgroup}
+
+\def\affiref#1{\@ifundefined{affi@r@#1}%
+		{\ipsj@warning{Affiliation reference `#1' undefined}% 2.00(3)
+			\def\@tempa{?}}%
+		{\def\@tempa{\csname affi@r@#1\endcsname}}%
+	{\def\protect{\noexpand\protect\noexpand}%
+	\ifx\affi@thefnmark\empty \xdef\affi@thefnmark{\@tempa}\else
+	\xdef\affi@thefnmark{\affi@thefnmark,\hskip\z@\@tempa}\fi}}
+\def\affi@footnotetext#1#2#3{{\def\@thefnmark{#1}%
+	\def\@makefnmarkforfn{#2}\@footnotetext{#3}}}
+
+\def\theaffi@footnote{{\dagger}\number\c@affi@footnote}
+\def\theaffi@pfootnote{{\ast}\number\c@affi@pfootnote}
+
+\def\thanks#1{\begingroup
+	\stepcounter{affi@pfootnote}\let\thempfn\theaffi@pfootnote
+	\let\@thefnmark\thempfn \@makefnmark
+	\let\affi@footnotetext\relax\let\\\relax
+	\def\protect{\noexpand\protect\noexpand}%
+	\xdef\@thanks{\@thanks
+		\affi@footnotetext{\thempfn}{\protect\@makefnmarkast}{#1}}%
+	\endgroup}
+% 2.12(7)<<
+
+% \contact is necessary only for drafts.
+\long\def\contact#1{}
+
+
+%%%%%% Page Header and Footer %%%%%% 
+
+\mark{{}{}} 
+
+\newcounter{volpageoffset} % You must set this to appropriate value
+\setcounter{volpageoffset}{1} % for each issue!
+\ifDS@printer							% 2.12(4d)>>
+\def\LastPageNumber{\gdef\ipsj@last@page}
+\fi								% 2.12(4d)<<
+
+% 2.00(16)>>
+\let\latex@document\document
+\def\document{\latex@document
+	\ifDS@private\else
+	\ifDS@online \global\c@page\ipsj@olh@page		% 2.12(4)
+	\else \global\c@page\c@volpageoffset \fi \fi}		% 2.07(8)
+\let\c@volpage\c@page		% for backward compatibility
+\def\thevolpage{\thepage}	% for backward compatibility
+% 2.00(16)<<
+
+\newcounter{volume}						% 2.12(1c)>>
+\newcounter{number}
+\let\c@month\c@number						% 2.07(4)
+\newcounter{year}						% 2.12(1c)<<
+
+\ifDS@printer							% 2.12(4b)>>
+\def\SetOnlineHeaderInfo#1#2#3#4{%	% <vol><year><month><page>[<lastpage>]
+	\def\ipsj@olh@vol{#1}%
+	\def\ipsj@olh@year{#2}%
+	\def\ipsj@olh@month{#3}%
+	\def\ipsj@olh@page{#4}%
+	\@ifnextchar[%]
+		\ipsj@olh@setlastpage\relax}
+\def\ipsj@olh@setlastpage[#1]{\def\ipsj@olh@lastpage{#1}}
+\fi								% 2.12(4b)<<
+
+% 2.07(4)>>
+\ifDS@online							% 2.12(4b)
+\def\@thevolno{Vol.~\ipsj@olh@vol}				% 2.12(4b)
+\else
+\def\@thevolno{Vol.~\arabic{volume}\hskip\@mojihaba No.~%	% 2.12(1c)>>
+	\ifipsj@trans SIG\ \ipsj@sig@numa(\ipsj@sig@code\ \ipsj@sig@numb)%
+	\else \arabic{number}\fi}				% 2.12(1c)<<
+\fi
+% 2.07(4)<<
+% 2.00(15)>>
+% 2.12(1c)(4b)>>
+\def\@monthyear{%
+	\ifDS@online \ipsj@monthyear\ipsj@olh@month\ipsj@olh@year
+	\else \c@year1959 \advance\c@year\c@volume
+		\ipsj@monthyear\c@number\c@year \fi}
+\def\ipsj@monthyear#1#2{\ifcase#1\or Jan.\or Feb.\or Mar.\or Apr.\or May\or
+		June\or July\or Aug.\or Sep.\or Oct.\or Nov.\or Dec.\else\fi
+	\hskip.5\@mojihaba \number#2}
+% 2.12(1c)(4b)<<
+% 2.00(15)<<
+
+% 2.07(2)>>
+\def\transaction#1#2#3{\ipsj@transtrue
+	\def\ipsj@sig@code{#1}\def\ipsj@sig@numa{#2}\def\ipsj@sig@numb{#3}%
+	\expandafter\let\expandafter\ipsj@sig@title
+		\csname ipsj@sig@#1@\ifDS@english e\else j\fi\endcsname
+	\ifx\ipsj@sig@title\relax
+		\ipsj@warning{Transaction code #1 is unknown}\fi
+	\let\ipsj@oddhead@s\ipsj@oddhead@a
+	\ifDS@online\else					% 2.12(4c)
+	\settowidth\@tempdima{%
+	    \ipsj@ohcheck\ipsj@ohcvolno\hdr@tipsj\ipsj@ohcvolno}%
+	\ifdim\@tempdima>\textwidth
+	    \let\ipsj@oddhead@s\ipsj@oddhead@b
+	    \settowidth\@tempdima{\c@month3\relax	% "Mar." is longest
+		\ipsj@ohcheck\ipsj@ohcvolno\hdr@tipsj\@monthyear}%
+	    \ifdim\@tempdima>\textwidth
+		\let\ipsj@oddhead@s\ipsj@oddhead@c
+	\fi \fi \fi}
+
+\def\ipsj@sig@PRO@e{Programming}
+\def\ipsj@sig@TOM@e{Mathematical Modeling and Its Applications}
+\def\ipsj@sig@TOD@e{Databases}
+\def\ipsj@sig@HPS@e{High Performance Computing Systems}
+\def\ipsj@sig@CVIM@e{Computer Vision and Image Media}
+\def\ipsj@sig@ACS@e{Advanced Computing Systems}			% 2.09(2)
+\def\ipsj@sig@TBIO@e{Bioinformatics}				% 2.11(3)
+\def\ipsj@sig@SLDM@e{System LSI Design Methodology}		% 2.12(8)
+% 2.07(2)<<
+
+\def\copyrightnotice{\long\def\ipsj@cnotice}
+
+% 1.05(2)>>
+\ifDS@techrep
+\def\ps@headings{\let\@mkboth\markboth
+	\def\@oddhead{\@checklines\hss}\let\@evenhead\@oddhead
+	\def\@oddfoot{}\def\@evenfoot{}}
+\let\ps@myheadings\ps@headings
+
+\else\ifDS@private						% 2.07(8)>>
+\def\ps@headings{\let\@mkboth\markboth
+	\def\@oddhead{\@checklines\hfil\thepage\hskip12\@Q}%
+	\def\@evenhead{\@checklines\hskip12\@Q\thepage\hfil}
+	\def\@oddfoot{}\def\@evenfoot{}}
+\def\ps@myheadings{\ps@headings
+	\def\@oddhead{\@checklines
+		\smash{\parbox[b]{.75\textwidth}{\@nameuse{ipsj@cnotice}}}%
+		\hfil\thepage\hskip12\@Q}%
+	\let\@evenhead\@oddhead}
+								% 2.07(8)<<
+\else
+% 1.05(2)<<
+\def\ps@headings{\let\@mkboth\markboth
+	\def\@oddfoot{}
+	\def\@evenfoot{}
+	\def\@evenhead{\fs@header \@checklines
+		\hskip12\@Q\rlap{\thepage}\hss			% 2.07(3)
+		\hdr@tipsj\hss\llap{\@monthyear}\hskip12\@Q}
+	\def\@oddhead{\fs@header \@checklines
+		\ipsj@oddhead@t\@titlestring\thepage}		% 2.07(3)
+	\def\sectionmark##1{}\def\subsectionmark##1{}}
+
+\def\ps@myheadings{\let\@mkboth\@gobbletwo
+	\def\@oddhead{\fs@header \@checklines
+		\ipsj@oddhead@s\hdr@tipsj\@monthyear}		% 2.07(3)
+	\def\@oddfoot{\fs@footer\hfil\thepage\hfil}
+	\let\@evenhead\@oddhead
+	\let\@evenfoot\@oddfoot
+	\def\sectionmark##1{}\def\subsectionmark##1{}}
+\fi\fi								% 1.05(2)
+								% 2.07(8)
+
+% 2.12(9)>>
+\def\ipsj@lc@Rtop{\rlap{\smash{\rule[-\headsep]{0.05mm}{10mm}%
+	\rule[-\headsep]{10mm}{0.05mm}}}}
+\def\ipsj@lc@Ltop{\llap{\smash{\rule[-\headsep]{10mm}{0.05mm}%
+	\rule[-\headsep]{0.05mm}{10mm}}}}
+\def\ipsj@lc@Lbot{\llap{\smash{\raisebox{-\textheight}{%
+	\raisebox{-\headsep}{\rule{10mm}{0.05mm}\rule[-10mm]{0.05mm}{10mm}}}}}}
+\def\ipsj@lc@Rbot{\rlap{\smash{\raisebox{-\textheight}{%
+	\raisebox{-\headsep}{\rule[-10mm]{0.05mm}{10mm}\rule{10mm}{0.05mm}}}}}}
+
+\def\ps@layoutcheck{\ps@headings
+	\let\ipsj@lc@evenhead\@evenhead
+	\def\@evenhead{\ipsj@lc@Lbot \ipsj@lc@Ltop
+		\ipsj@lc@evenhead
+		\ipsj@lc@Rtop \ipsj@lc@Rbot}%
+	\let\ipsj@lc@oddhead\@oddhead
+	\def\@oddhead{\ipsj@lc@Lbot \ipsj@lc@Ltop
+		\ipsj@lc@oddhead
+		\ipsj@lc@Rtop \ipsj@lc@Rbot}%
+	\let\ipsj@lc@myheadings\ps@myheadings
+	\def\ps@myheadings{\ipsj@lc@myheadings
+		\let\ipsj@lc@fpoddhead\@oddhead
+		\def\@oddhead{\ipsj@lc@Lbot \ipsj@lc@Ltop
+			\ipsj@lc@fpoddhead
+			\ipsj@lc@Rtop \ipsj@lc@Rbot}%
+		\let\@evenhead\@oddhead}}
+% 2.12(9)<<
+
+% 2.07(3)>>
+\def\ipsj@oddhead@a#1#2{\hskip12\@Q \rlap{\@thevolno}\hss#1\hss
+	\llap{#2}\hskip12\@Q}
+\def\ipsj@oddhead@b#1#2{\hskip12\@Q \@thevolno\qquad#1\hss
+	\llap{#2}\hskip12\@Q}
+\def\ipsj@oddhead@c#1#2{\hskip12\@Q \@thevolno\hss#1\hss#2\hskip12\@Q}
+\let\ipsj@oddhead@t\ipsj@oddhead@a
+\let\ipsj@oddhead@s\ipsj@oddhead@a
+% 2.07(3)<<
+
+\def\ipsj@online@trans{IPSJ Digital Courier}			% 2.12(4c)
+\def\ipsj@online@journal{IPSJ Digital Courier}			% 2.12(4c)
+% 2.02(2),2.07(4)>>
+\ifDS@english
+\def\hdr@tipsj{\smash{%
+	\ifDS@online						% 2.12(4c)>>
+		\ifipsj@trans
+			\ipsj@online@trans
+		\else
+			\ipsj@online@journal\fi			% 2.12(4c)<<
+	\else
+		\ifipsj@trans
+			IPSJ Transactions on \ipsj@sig@title
+		\else
+			IPSJ Journal\fi
+	\fi}}
+\else
+\def\hdr@tipsj{\smash{\ipsj@j@jipsj				% 2.12(1c)>>
+	\ifipsj@trans \ipsj@j@colon \ipsj@sig@title \fi}}	% 2.12(1c)<<
+\fi
+% 2.02(2),2.07(4)<<
+
+% \checklines enables to draw a horizontal rule onto each baselines.
+
+\newif\if@checklines \@checklinesfalse
+\def\checklines{\@checklinestrue}
+\def\@checklines{\if@checklines \rlap{\smash{\vtop{\normalsize
+	\hbox{} \vskip\headsep \hrule width\textwidth\vskip-.4pt \vskip\topskip
+	\hrule\vskip-.4pt
+	\ifDS@techrep\@tempcnta50\else				% 1.05(2)
+	\ifDS@english\@tempcnta53\else\@tempcnta45\fi\fi	% 1.05(2)
+	\relax\@@checklines}}}\fi
+	\ifDS@english\@tempcnta-7\else\@tempcnta\z@\fi\relax
+% 1.05(2)>>
+	% register marks are removed				% 2.12(2d)
+% 1.05(2)<<
+	}
+\def\@@checklines{\ifnum\@tempcnta>\z@
+	\vskip\normalbaselineskip \hrule\vskip-.4pt \advance\@tempcnta\m@ne
+	\let\next\@@checklines\else\let\next\relax\fi\next}
+
+\pagestyle{headings}
+\pagenumbering{arabic}
+
+\ifDS@english\else
+\def\today{\the\year\ipsj@j@year \the\month\ipsj@j@month \the\day\ipsj@j@day}
+								% 2.12(1c)
+\fi
+
+
+%%%%%% Output Routine %%%%%%
+
+% To balance the final page,
+% following code is borrowed from nicetwocolumn style
+
+% you can refrain from balancing by falsifying following switch!
+%% Initial value of \if@lastpagebalancing is false.  It may be turned true by
+%% biography processing macros. (H.N.)
+
+\newif\if@lastpagebalancing \@lastpagebalancingfalse
+\newif\if@finalpageoutput \@finalpageoutputfalse
+% incorporate balanced output to \enddocument
+\let\latex@enddocument\enddocument
+\def\enddocument{\@finalpageoutputtrue
+	\if@lastpagebalancing
+		\global\let\@outputdblcol\opt@balanceoutputdblcol\fi
+	\ifDS@preface
+		\global\let\@outputdblcol\opt@balanceoutputdblcol\fi
+	\ifDS@abstract						% 2.07(7)>>
+		\hbox{}\newpage
+		\ifDS@english	\rightline{(Presented \ra@presented)}
+		\else		\expandafter\ra@putpresented\ra@presented \fi
+		\fi						% 2.07(7)<<
+%								% 2.12(4d)>>
+	\if@filesw \write\@auxout{\string\gdef\string\ipsj@lastpage
+		{\number\c@page}}\fi				% 2.12(4d)<<
+	\latex@enddocument}
+
+\newbox\@leftcolumnfootnote \newbox\@rightcolumnfootnote
+\newif\if@leftfootnoteexist \@leftfootnoteexistfalse 
+\newif\if@rightfootnoteexist \@rightfootnoteexistfalse
+\newif\ifopt@floatexist \opt@floatexistfalse
+
+% 2.00(12) \color@{begin/end}group ignored
+\def\enlargethispage{\ipsj@warning{\string\enlargepage is ignored}}
+								% 2.00(3,12)
+\def\@makecol{\vbadness10000 \lineskiplimit\normallineskiplimit	% 1.05(1)
+	\setbox\@outputbox\box\@cclv
+	\if@firstcolumn
+		\ifvoid\footins \global\@leftfootnoteexistfalse
+		\else
+			\global\@leftfootnoteexisttrue
+			\@tempdima\dp\footins
+			\global\setbox\@leftcolumnfootnote\vbox{
+				\unvbox\footins\vskip-\@tempdima}
+		\fi
+		\ifx\@botlist\@empty\else\global\opt@floatexisttrue\fi
+	\else
+		\ifvoid\footins \global\@rightfootnoteexistfalse
+		\else
+			\global\@rightfootnoteexisttrue
+			\@tempdima\dp\footins
+			\global\setbox\@rightcolumnfootnote\vbox{
+				\unvbox\footins	\vskip-\@tempdima}
+		\ifx\@toplist\@empty\else\global\opt@floatexisttrue\fi
+		\fi
+	\fi
+	\xdef\@freelist{\@freelist\@midlist}\gdef\@midlist{}\@combinefloats
+	\global\maxdepth\@maxdepth}
+
+% 2.01(1) >>
+\let\latex@vtryfc\@vtryfc
+\def\@vtryfc{\if@firstcolumn \global\@leftfootnoteexistfalse
+	\else \global\@rightfootnoteexistfalse \fi \latex@vtryfc}
+% 2.01(1) <<
+
+% 1.01(1,2) >>
+\let\latex@addtobot\@addtobot
+\def\@addtobot{\latex@addtobot\global\maxdepth\@maxdepth}
+\let\latex@combinefloats\@combinefloats
+\def\@combinefloats{\ifx\@botlist\@empty\else \dimen@\dp\@outputbox
+	\setbox\@outputbox\vbox{\unvbox\@outputbox \vskip-\dimen@}\fi
+	\latex@combinefloats}
+% 1.01(1,2) <<
+
+\newskip\opt@baselineskip
+\def\@outputdblcol{
+	\if@firstcolumn \global\@firstcolumnfalse
+		\global\setbox\@leftcolumn\box\@outputbox
+		\global\opt@baselineskip\baselineskip
+	\else \global\@firstcolumntrue \global\opt@floatexistfalse
+	\global\bib@adjustheight-\maxdimen
+	\setbox\@leftcolumn\vbox to\@colht{\boxmaxdepth\@maxdepth   % 1.01(3)
+		\unvbox\@leftcolumn
+		\if@leftfootnoteexist\vfil
+			\footnoterule\box\@leftcolumnfootnote\fi}
+	\setbox\@outputbox\vbox to\@colht{\boxmaxdepth\@maxdepth    % 1.01(3)
+		\unvbox\@outputbox
+		\if@rightfootnoteexist\vfil
+			\footnoterule\box\@rightcolumnfootnote\fi}
+	\global\maxdepth\@maxdepth
+	\if@finalpageoutput
+	\if@leftfootnoteexist\else\if@rightfootnoteexist\else
+		\setbox\@leftcolumn\vbox{\unvbox\@leftcolumn}%
+		\setbox\@outputbox\vbox{\unvbox\@outputbox}
+		\ifdim\ht\@leftcolumn<\ht\@outputbox
+			\setbox\@leftcolumn\vbox to\ht\@outputbox{
+				\unvbox\@leftcolumn}%
+		\else
+			\setbox\@outputbox\vbox to\ht\@leftcolumn{
+				\unvbox\@outputbox}%
+		\fi
+	\fi\fi\fi
+	\setbox\@outputbox\vbox{\hbox to\textwidth{\hbox to\columnwidth
+		{\box\@leftcolumn \hss}\hfil \vrule width\columnseprule\hfil
+		\hbox to\columnwidth{\box\@outputbox \hss}}}
+	\@combinedblfloats
+	\@outputpage \begingroup \@dblfloatplacement \@startdblcolumn
+	\@whilesw\if@fcolmade \fi{\@outputpage\@startdblcolumn}%
+	\endgroup
+	\fi}
+
+\let\opt@outputdblcol\@outputdblcol
+\chardef\opt@boxa\z@
+\chardef\opt@boxb\@ne
+\chardef\opt@boxc\tw@
+\def\opt@magicpenalty{1234}
+\def\opt@balanceoutputdblcol{\let\next\opt@ibalanceoutputdblcol
+	\if@firstcolumn \let\next\opt@outputdblcol
+	\else	\ifopt@floatexist \opt@warning \let\next\opt@outputdblcol
+		\else\ifx\@deferlist\@empty\else
+			\opt@warning \let\next\opt@outputdblcol\fi\fi\fi
+	\next}
+\def\opt@ibalanceoutputdblcol{%
+	\setbox\@leftcolumn\vbox{\unvbox\@leftcolumn
+		\ifnum\lastpenalty=\opt@magicpenalty\relax\else
+		\@tempcnta10\relax\@whilenum\@tempcnta>0\do{%
+			\unskip\unskip\unkern\unpenalty
+			\advance\@tempcnta\m@ne}\fi}
+	\advance\opt@baselineskip-\dp\@leftcolumn
+	\ifdim\dp\@leftcolumn=\z@ \ifdim\opt@baselineskip=\baselineskip
+		\@tempdima\ht\@leftcolumn \advance\@tempdima-\topskip
+		\divide\@tempdima\baselineskip
+		\@tempcnta\@tempdima \@tempdima\@tempcnta\baselineskip
+		\advance\@tempdima\topskip
+		\advance\@tempdima-\ht\@leftcolumn
+		\advance\opt@baselineskip\@tempdima \fi\fi
+	\advance\opt@baselineskip-\topskip
+	\setbox\@outputbox\vbox{\unvbox\@outputbox}
+	\ifdim\ht\@outputbox=\topskip \ifdim\dp\@outputbox=\z@
+	\setbox\opt@boxa\vbox{\unvcopy\@outputbox\unskip
+		\global\setbox\opt@boxb\lastbox
+		\global\dimen@\lastskip}
+	\ifvoid\opt@boxb\else\ifdim\ht\opt@boxb=\z@
+		\ifdim\dp\opt@boxb=\z@\ifdim\dimen@=\topskip
+		\@firstcolumntrue\fi\fi\fi\fi\fi\fi
+	\setbox\opt@boxa\copy\@outputbox
+	\setbox\@outputbox\vbox{\unvcopy\@leftcolumn
+		\if@firstcolumn\else
+		\vskip\opt@baselineskip
+		\penalty\interlinepenalty\unvbox\@outputbox\fi}
+	\@tempdima\ht\@outputbox \advance\@tempdima\topskip
+	\divide\@tempdima\tw@ \advance\@tempdima100sp
+	\splittopskip\topskip \splitmaxdepth\@maxdepth
+	\ifdim\bib@adjustheight<\@M pt
+		\opt@split\@outputbox\opt@boxb\@tempdima
+		\ifdim\ht\opt@boxb<\bib@adjustheight
+			\opt@split\@leftcolumn\opt@boxc\bib@adjustheight
+			\opt@split\opt@boxc\opt@boxb\@tempdima
+			\if@firstcolumn
+				\opt@adjust\opt@boxc{\unvbox\@leftcolumn}
+			\else\opt@adjust\opt@boxc{\ifvoid\@leftcolumn\else
+				\unvbox\@leftcolumn\vskip\opt@baselineskip\fi
+				\unvbox\opt@boxa}\fi\fi
+	\else
+		\advance\bib@adjustheight-\@M pt
+		\opt@split\opt@boxa\opt@boxc\bib@adjustheight
+		\setbox\@outputbox\vbox{\unvbox\@leftcolumn
+			\vskip\opt@baselineskip\unvbox\opt@boxc}
+		\opt@split\@outputbox\opt@boxb\@tempdima
+		\opt@adjust\@outputbox{\unvbox\opt@boxa}
+	\fi
+	\if@leftfootnoteexist
+		\setbox\opt@boxb\vbox to\@colht{\box\opt@boxb\vfill
+			\footnoterule\box\@leftcolumnfootnote}\fi
+	\if@rightfootnoteexist
+		\setbox\@outputbox\vbox to\@colht{\box\@outputbox\vfill
+			\footnoterule\box\@rightcolumnfootnote}\fi
+	\ifdim\ht\@outputbox>\ht\opt@boxb
+		\setbox\opt@boxb\vbox to\ht\@outputbox{\unvbox\opt@boxb}
+	\else
+		\setbox\@outputbox\vbox to\ht\opt@boxb{\unvbox\@outputbox}
+	\fi
+	\setbox\@outputbox\vbox{\hbox to\textwidth{\hbox to\columnwidth
+		{\box\opt@boxb \hss}\hfil \vrule width\columnseprule\hfil
+		\hbox to\columnwidth{\box\@outputbox \hss}}}
+	\global\@firstcolumntrue \@combinedblfloats
+	\@outputpage \begingroup \@dblfloatplacement \@startdblcolumn
+	\@whilesw\if@fcolmade \fi{\@outputpage\@startdblcolumn}\endgroup}
+
+\if@LaTeX@eN							% 2.00(3)>>
+\def\opt@warning{\ClassWarning{ipsjpapers}{%
+	Single column floats still remain on biography\MessageBreak
+	processing.\MessageBreak
+	Do \string\verbbiography\space for manual balcing}}
+\else
+\def\opt@warning{\@warning{Single column floats still remain on biography
+	processing.^^J\space\space\space\space\space
+	\space\space\space\space\space\space\space\space\space\space
+	Do \string\verbbiography\space for manual balancing}}
+\fi								% 2.00(3)<<
+\def\opt@split#1#2#3{\setbox#2\vsplit#1to#3\setbox#2\vbox{\unvbox#2}}
+\def\opt@adjust#1#2{\@tempdima\ht#1 \advance\@tempdima-\topskip
+	\@tempdimb\@tempdima \divide\@tempdima\baselineskip
+	\@tempcnta\@tempdima \@tempdima\@tempcnta\baselineskip
+	\advance\@tempdima-\@tempdimb
+	\ifdim\@tempdima<\z@ \advance\@tempdima\baselineskip \fi
+	\advance\@tempdima\baselineskip \advance\@tempdima-\dp#1 
+	\advance\@tempdima-\topskip
+	\setbox\@outputbox\vbox{\ifvoid#1\else\unvbox#1\vskip\@tempdima\fi#2}}
+
+\let\latex@outputpage\@outputpage
+% \opt@finalgap:	vertical space above the \hrule at the end of paper.
+% \opt@finallinewidth:	width of the \hrule at the end of paper.
+\@tempdima2\baselineskip		% This might be changed
+\edef\opt@finalgap{\the\@tempdima}
+\def\opt@finallinewidth{220\@Q}		% This might be changed
+\ifDS@techrep \let\opt@finallinewidth\z@ \fi			% 1.05(2)
+
+\def\@outputpage{\if@finalpageoutput
+	\setbox\@outputbox\vbox{\unvbox\@outputbox}
+	\@tempdima\dp\@outputbox
+	\@tempdimb\ht\@outputbox \advance\@tempdimb\opt@finalgap\relax
+	\ifdim\@tempdimb>\textheight\else
+	\setbox\@outputbox\vbox{\unvbox\@outputbox\vskip-\@tempdima
+		\nointerlineskip\vbox to\z@{\vskip\opt@finalgap
+			\hbox to\textwidth{\hss
+			\vrule height0.4pt width\opt@finallinewidth\hss}
+		\vss}}\fi\fi
+	\ifASCII\if@LaTeX@e\ifipsj@nonjp\else
+		\@@topmargin\topmargin \fi\fi\fi	    % 2.00(13),2.12(1b)
+	\latex@outputpage}
+
+%%%%%% Biography %%%%%%
+
+% If you want to control the allocation of biographies manually, do
+% \verbbiography and insert \adjust{<vertical materials>} just before
+% \member (or its relatives).  For example;
+% 	\verbbiography
+%	\begin{biography}
+%	\member{...} ...
+%	\adjust{\protect\newpage}
+%	\member{...} ...
+%	\adjust{\protect\vspace{1.3cm}}
+%	\member{...} ...
+%	\end{biography}
+% will make page break just after the biography of the 1st author, and will
+% insert a vertical space of 1.3cm just after that of the 2nd.  It is
+% strongly recommended to \protect any control sequence in the argument of
+% \adjust.
+
+% \received and \accepted define the dates of receipt/acceptance.
+% They are put at the end of manuscript (just before biographies) by
+% \ra@putrcvacc.
+
+% 2.12(1c)>>
+% \def\ra@nengo is moved to the tail				% 2.12(1c)
+\ifDS@english
+\def\received#1#2#3{\def\ra@received{\ra@date{#1}{#2}{#3}}\ignorespaces}
+\def\accepted#1#2#3{\def\ra@accepted{\ra@date{#1}{#2}{#3}}\ignorespaces}
+								% 2.07(5)
+% \rereceived is moved below					% 2.12(5)
+\def\presented#1#2#3{\def\ra@presented{\ra@date{#1}{#2}{#3}}\ignorespaces}
+								% 2.07(7)
+\ifDS@printer							% 2.12(4e)>>
+\def\ReleasedToOnline#1#2#3{\ifDS@online
+	\def\ra@released{\ra@date{#1}{#2}{#3}}\fi}
+\fi								% 2.12(4e)<<
+\def\ra@received{??? ??, ????}
+\def\ra@accepted{??? ??, ????}
+\def\ra@presented{??? ??, ????}					% 2.07(7)
+\def\ipsj@TOD@editor{(Editor in Charge:\quad{\it\ipsj@TOD@ename\/})}
+								% 2.07(6)
+								% 2.12(6)
+
+\ifDS@TBIO							% 2.11(4)>>
+\def\ipsj@TOD@editor{(Communicated by\quad{\it\ipsj@TOD@ename\/})}% 2.12(6)
+\fi								% 2.11(4)<<
+\else
+\def\received#1#2#3{\def\ra@received{#1&#2&#3&}\ignorespaces}
+\def\accepted#1#2#3{\def\ra@accepted{#1&#2&#3&}\ignorespaces}
+								% 2.07(5)
+% \rereceived is moved below					% 2.12(5)
+\def\presented#1#2#3{\def\ra@presented{#1&#2&#3&}\ignorespaces}	% 2.07(7)
+\def\ra@received{?&?&?&}
+\def\ra@accepted{?&?&?&}
+\def\ra@presented{?&?&?&}					% 2.07(7)
+\def\ipsj@TOD@editor{\ipsj@j@lp\ipsj@j@edinch
+	\quad\ipsj@TOD@ename\ipsj@j@rp}				% 2.07(6)
+								% 2.08(2)
+								% 2.12(6)
+\fi
+% aliasing of \received etc. is moved to the tail.
+
+% 2.12(1c)<<
+
+\let\ra@elt\relax						% 2.12(5)>>
+\def\rereceived#1#2#3{\ifx\ra@rereceived\undefined
+		\def\ra@rereceived{\ra@elt{}{#1}{#2}{#3}}\def\ra@rerecnum{1}%
+	\else
+		\@tempcnta\ra@rerecnum \advance\@tempcnta\@ne
+		\edef\ra@rerecnum{\number\@tempcnta}%
+		\edef\ra@rereceived{\ra@rereceived
+			\ra@elt{(\ra@rerecnum)}{#1}{#2}{#3}}%
+	\fi \ignorespaces}					% 2.12(5)<<
+
+\def\edInCharge#1{\def\ipsj@TOD@ename{#1}\ignorespaces}		% 2.07(6)
+
+\def\ra@putrcvacc{\rightline{\vtop{\normalsize\tabskip\z@
+	\ifDS@english
+	    \llap{(Received \ra@received)}
+	    \def\ra@elt##1##2##3##4{%				% 2.12(5)>>
+		\llap{(Revised##1 \ra@date{##2}{##3}{##4})}}
+	    \ifx\ra@rereceived\undefined \else \ra@rereceived \fi
+								% 2.12(5)<<    
+	    \llap{(Accepted \ra@accepted)}
+	    \ifx\ra@released\undefined\else			% 2.12(4e)
+		\llap{(Released \ra@released)}\fi		% 2.12(4e)
+	    \hbox{}
+	\else							% 2.12(1c)>>
+	    \def\ra@elt##1##2##3##4{##2&##3&##4&\ipsj@j@rerec##1)\cr}%
+								% 2.12(5)
+	    \halign{(\ra@nengo\hskip\jasciikanjiskip
+		\hfil##\hfil\hskip\jasciikanjiskip \ipsj@j@year
+			\hskip\jasciikanjiskip&
+		\hfil##\hfil\hskip\jasciikanjiskip \ipsj@j@month
+			\hskip\jasciikanjiskip&
+		\hfil##\hfil\hskip\jasciikanjiskip \ipsj@j@day
+			&##\hfil\cr				% 2.07(5)>>
+		\ra@received \ipsj@j@received)\cr
+		\ifx\ra@rereceived\undefined \else \ra@rereceived \fi
+								% 2.12(5)
+		\ra@accepted \ipsj@j@accepted)\cr\multispan3\cr}\fi}%
+								% 2.07(5)<<
+								% 2.12(1c)<<
+	\hskip\@mojihaba}
+	\nobreak\vskip-2\baselineskip\prevdepth\z@\hbox{}
+	\ifDS@printer \ifDS@english				% 2.12(4d)>>
+		\ifipsj@trans
+			\ifDS@online \noindent \ipsj@refer@trans \par \fi
+		\else
+			\ifDS@online\else \noindent \ipsj@refer@online \par \fi
+	\fi \fi \fi						% 2.12(4d)<<
+	\ifipsj@recommendation\else				% 2.04(2)
+		\ifx\ipsj@TOD@ename\undefined\else		% 2.07(6)>>
+			\nobreak\vskip\baselineskip
+			\hbox{\ipsj@TOD@editor}\fi		% 2.07(6)<<
+		\vskip\baselineskip\penalty\opt@magicpenalty\fi}% 2.04(2)
+\def\ra@date#1#2#3{\ifcase#2\or
+	January\or February\or March\or April\or May\or June\or
+	July\or August\or September\or October\or November\or December\fi
+	\space#3, #1}
+\def\ra@jdate#1#2#3{#1&#2&#3&}
+\def\ra@putpresented#1&#2&#3&{\rightline{%			% 2.12(1c)>>
+	(\ra@nengo\hskip\jasciikanjiskip			% 2.07(7)>>
+	#1\hskip\jasciikanjiskip \ipsj@j@year \hskip\jasciikanjiskip
+	#2\hskip\jasciikanjiskip \ipsj@j@month \hskip\jasciikanjiskip
+	#3\hskip\jasciikanjiskip \ipsj@j@day\ipsj@j@presented)}}
+								% 2.07(7)<<
+								% 2.12(1c)<<
+
+% 2.12(4d)>>
+\def\ipsj@space{\hskip\z@ plus\fontdimen\thr@@\font \penalty5000\relax}
+\def\ipsj@refer@trans{%
+	(Paper version of this article can be found in the IPSJ Transactions on
+	\csname ipsj@sig@\ipsj@sig@code @e\endcsname,
+	Vol.\ipsj@space\number\c@volume,
+	No.\ipsj@space SIG\ipsj@sig@numa\ipsj@space
+	(\ipsj@sig@code\ipsj@space\ipsj@sig@numb),
+	pp.\ipsj@space\number\c@volpageoffset--\penalty5000\relax
+	\ipsj@thelastpage\c@volpageoffset\ipsj@last@page.)}
+\def\ipsj@refer@online{%
+	(Online version of this article can be found in the
+	IPSJ Digital Courier,
+	Vol.\ipsj@space\ipsj@olh@vol,
+	pp.\ipsj@space\ipsj@olh@page--\penalty5000\relax
+	\ipsj@thelastpage\ipsj@olh@page\ipsj@olh@lastpage.)}
+\def\ipsj@thelastpage#1#2{\begingroup
+	\@tempcnta#1\relax
+	\ifDS@online \@tempcntb\ipsj@olh@page
+	\else \@tempcntb\c@volpageoffset\fi
+	\ifx#2\undefined
+		\ifx\ipsj@lastpage\undefined \def\@tempa{???}%
+		\else \advance\@tempcntb-\ipsj@lastpage
+			\advance\@tempcnta-\@tempcntb
+			\def\@tempa{\number\@tempcnta}%
+		\fi
+	\else \def\@tempa{#2}%
+	\fi
+	\@tempa \endgroup}
+% 2.12(4d)<<
+
+\newbox\bio@picbox
+% The following define the height and width of a picture for biography, and
+% the indentation of the first 6 lines.  They might be changed.
+\def\bio@picheight{100\@Q}
+\def\bio@picwidth{80\@Q}
+
+\newif\ifbio@showpicbox
+\bio@showpicboxtrue
+% Do \bio@showpicboxfalse if you don't want to put a frame box at the
+% position for picture.
+\ifDS@english
+\def\bio@lineheight{9\@Q}
+\def\bio@piclines{7}
+\def\bio@indent{91\@Q}
+\def\bio@hangafter{7}
+\else
+\def\bio@lineheight{8\@Q}
+\def\bio@piclines{6}
+\def\bio@indent{96\@Q}
+\def\bio@hangafter{5}
+\fi
+
+% \verbbiography forces verbatim output of biography (i.e. not ballanced).
+\newif\ifbio@verb \bio@verbfalse
+\def\verbbiography{\global\bio@verbtrue}
+% The environment biography saves texts for biographies into the list of
+% \inserts (for floats).
+\def\biography{\ifipsj@recommendation\else\par\ra@putrcvacc\fi	% 2.04(2)
+	\def\member{\bio@member{}{\ipsj@j@member}}%		%2.12(3a)(1c)>>
+	\def\nomember{\bio@member{}{}}%
+	\def\stmember{\bio@member{}{\ipsj@j@stmember}}%
+	\def\xmember{\bio@member{}}%
+	\ifDS@printer
+		\def\Kmember{\bio@Kmember{\ipsj@j@member}}%
+		\def\Knomember{\bio@Kmember{}}%
+		\def\Kstmember{\bio@Kmember{\ipsj@j@stmember}}
+		\let\Kxmember\bio@Kmember
+	\fi							%2.12(3a)(1c)<<
+	\ifDS@english \let\author\nomember			% 2.12(3d)>>
+		\ifDS@printer \let\Kauthor\Knomember \fi
+	\fi							% 2.12(3d)<<
+	\let\adjust\bio@adjust
+	\ifbio@showpicbox
+	\setbox\bio@picbox\hbox{\hbox to\z@{\vrule\hskip-0.4pt%
+		\vtop to\bio@picheight{\vskip\z@\hrule width\bio@picwidth
+			\vfil\hrule}\hskip-0.4pt\vrule\hss}}
+	\else
+	\setbox\bio@picbox\hbox{}
+	\fi
+	\@tempdima\bio@piclines\baselineskip \advance\@tempdima\bio@lineheight
+	\dp\bio@picbox\@tempdima
+	\let\bio@egroup\relax\let\+\ignorespaces\let\@elt\relax
+	\def\bio@list{}\global\bio@th\z@}
+
+\def\bio@Kmember#1#2#3{\bio@member{#3}{#1}{#2}}			% 2.12(3a)
+\def\bio@member#1#2#3{\bio@egroup\let\bio@egroup\bio@@egroup	% 2.12(3b)>>
+	\@next\@currbox\@freelist\relax
+		{\@latexerr{Too many unprocessed floats and biographies}\@ehb}%
+	\def\@tempa{#3}\def\@tempb{#1}%
+	\global\setbox\@currbox\hbox\bgroup
+	    \@tempswatrue
+	    \ifx\@tempb\@empty
+		\ifDS@printer \@tempswafalse
+		\else \raise\bio@lineheight\copy\bio@picbox
+		\fi
+	    \else
+		\setbox\@tempboxa\hbox to\z@{\vtop{\vskip\z@
+		    \hbox{\includegraphics
+			[width=\bio@picwidth,height=\bio@picheight]{#1.eps}}}%
+		    \hss}
+		\dp\@tempboxa\dp\bio@picbox
+		\raise\bio@lineheight\box\@tempboxa
+	    \fi							% 2.12(3b)<<
+	    \vtop\bgroup
+		\let\par\\
+		\if@tempswa \hangindent\bio@indent\hangafter-\bio@hangafter \fi
+		\ifDS@english {\bf #3\ }%
+		\else {\bf\bio@putauthor#3\+ \@nil}%
+			\def\@tempb{#2}\ifx\@tempb\@empty\else	% 2.12(3c)
+			\ipsj@j@lp#2\ipsj@j@rp\fi{\@@par}\fi	% 2.12(3c)(1c)
+	\ignorespaces}
+
+% Author name format:
+%	S + G < 5 -> fill space between S/G (like SS__G)
+%	otherwise -> 1 KC space between S/G (like SS_GG)
+\def\bio@putauthor#1 #2\@nil{%
+	\ifipsj@nonjp#1 #2\else
+	\setbox\@tempboxa\hbox{\jintercharskip\z@#1#2}%
+	\setbox\mkt@boxa\hbox{\jintercharskip1cm#1#2}%
+	\ifdim\wd\@tempboxa=\wd\mkt@boxa #1 #2\else
+	\def\@tempa{#2}\ifx\@tempa\empty
+		{\def\+{}\ipsj@warning{Author name #1 doesn't have a space}}%
+								% 2.00(3)
+		#1\else
+	\@tempdima\@mojihaba
+	\mkt@getnamewidth\mkt@sname{#1}\mkt@getnamewidth\mkt@gname{#2}%
+	\advance\mkt@sname\mkt@gname
+	\ifnum\mkt@sname<5\leavevmode\hbox to5\@mojihaba{#1\hfil#2}\else
+		#1#2\fi\fi\fi\fi}
+\def\bio@@egroup{\@@par\hbox{}\egroup\egroup\@tempdima\dp\@currbox
+	\ifdim\@tempdima>\textheight
+		\ipsj@warning{Biography of \@tempa\space is too long}% 2.00(3)
+		\bio@verbtrue \fi
+	\advance\@tempdima\baselineskip\global\advance\bio@th\@tempdima
+	\global\dimen\@currbox\@tempdima \global\count\@currbox\z@
+	{\let\protect\bio@protect\xdef\bio@list{\bio@list\@elt\@currbox}}}
+\def\bio@adjust#1{\bio@egroup\let\bio@egroup\relax
+	\ifbio@verb {\let\protect\bio@protect\xdef\bio@list{\bio@list#1}\fi}}
+\def\bio@protect{\noexpand\protect\noexpand}
+
+\def\endbiography{\bio@egroup \@tempswatrue
+	\ifx\@botlist\@empty\ifx\@deferlist\@empty \@tempswafalse \fi\fi
+	\ifbio@verb\else\if@tempswa \bio@verbtrue \opt@warning\fi\fi
+	\ifbio@verb{\let\@elt\bio@putelt \let\protect\relax \bio@list}%
+	\else\bio@putbio\fi}
+
+\newdimen\bio@colht \newdimen\bio@splitheight
+\newdimen\bio@maxgap \newdimen\bio@lastgap
+\newdimen\bio@th \newdimen\bio@lhA \newdimen\bio@hA \newdimen\bio@hB
+\newdimen\bio@lh \newdimen\bio@rh
+\newdimen\bio@tempdim
+\newif\ifbio@awful
+\newinsert\bio@pbox \count\bio@pbox\@ne
+
+\def\bio@putbio{\let\@elt\relax \let\bio@vskip\relax \allowbreak
+	\bio@colht\@colht \advance\bio@colht-\topskip
+	\advance\bio@colht\baselineskip
+	\@tempdima\bio@colht \advance\@tempdima-\@colroom
+	\advance\@tempdima\pagetotal
+	\if@firstcolumn
+	    \ifdim\@tempdima>\bio@th
+		\global\@lastpagebalancingtrue
+		{\let\@elt\bio@putelt\bio@list}\vskip-\baselineskip
+	    \else
+		\ifdim\pagetotal=\z@\else
+			\dimen\bio@pbox\@tempdima \advance\bio@th\@tempdima
+			\edef\bio@list{\@elt\bio@pbox\bio@list}\fi
+		\bio@splitheight\bio@colht \bio@splitpage
+		\bio@splitheight.5\bio@th
+		\let\bio@awfulput\bio@specialawfulput
+		\bio@trybalance\fi
+	\else \advance\@tempdima\bio@th
+	    \ifdim\@tempdima<\bio@colht
+		\global\@lastpagebalancingtrue
+		\ifdim\pagetotal=\z@ \global\opt@baselineskip2\baselineskip\fi
+		{\let\@elt\bio@putelt\bio@list}\vskip-\baselineskip
+	    \else
+		\let\bio@awfulput\bio@normalawfulput
+		\bio@splitheight\z@ \advance\@tempdima-\bio@th
+		\advance\bio@colht-\@tempdima \bio@splitpage
+		{\let\@elt\bio@putelt\bio@list}\bio@nextpage
+		\bio@trybalance\fi
+	\fi}
+
+\def\bio@trybalance{\bio@split 
+	\let\bio@right\bio@rightA \let\bio@left\bio@leftA
+		\def\bio@rightx{}\def\bio@leftx{}%
+		\let\bio@hX\bio@hA \bio@balance
+		\let\bio@rightxA\bio@rightx \let\bio@leftxA\bio@leftx
+	\ifbio@awful\@tempcnta\tw@\else\@tempcnta\z@\fi
+	\let\bio@right\bio@rightB \let\bio@left\bio@leftB
+		\def\bio@rightx{}\def\bio@leftx{}%
+		\let\bio@hX\bio@hB \bio@balance
+		\let\bio@rightxB\bio@rightx \let\bio@leftxB\bio@leftx
+	\ifbio@awful\advance\@tempcnta\@ne\fi
+	\ifcase\@tempcnta
+		\ifdim\bio@hA<\bio@hB \bio@balanceput\bio@leftxA\bio@rightxA
+		\else \bio@balanceput\bio@leftxB\bio@rightxB\fi
+	\or \bio@balanceput\bio@leftxA\bio@rightxA
+	\or \bio@balanceput\bio@leftxB\bio@rightxB
+	\else \bio@awfulput\fi
+	\ifx\bio@deferred\empty\vskip-\baselineskip\let\next\relax
+	\else\bio@nextpage\let\next\bio@trybalance\fi\next}
+
+\def\bio@split{\def\bio@leftA{}\def\bio@leftB{}%
+	\def\bio@rightA{}\def\bio@rightB{}%
+	\bio@lhA\z@\@tempdimb\z@ \bio@isplit}
+\def\bio@isplit{\ifx\bio@list\empty\let\next\relax\else
+	\bio@car\@tempdima\@currbox\bio@list
+	\bio@lhA\@tempdimb\advance\@tempdimb\@tempdima
+	\edef\bio@leftB{\bio@leftB\@elt\@currbox}%
+	\ifdim\@tempdimb>\bio@splitheight
+		\edef\bio@rightA{\@elt\@currbox\bio@list}%
+		\let\bio@rightB\bio@list \let\next\relax
+	\else\edef\bio@leftA{\bio@leftA\@elt\@currbox}\let\next\bio@isplit
+	\fi\fi\next}
+
+\def\bio@balanceput#1#2{{\let\@elt\bio@putelt\let\bio@vskip\bio@xvskip
+	#1\bio@newpage#2}}
+\def\bio@normalawfulput{{\let\bio@vskip\@gobble \@tempcnta\z@ 
+	\@tempdima\z@ \bio@addheight\@tempdima\bio@leftxB
+	\ifdim\@tempdima<\bio@colht
+		\@tempdima\z@ \bio@addheight\@tempdima\bio@rightxB
+		\ifdim\@tempdima<\bio@colht \@tempcnta\@ne
+			\let\@elt\bio@putelt
+			\bio@leftxB\bio@newpage\bio@rightxB\fi\fi
+	\ifnum\@tempcnta=\z@
+		\@tempdima\z@ \bio@addheight\@tempdima\bio@leftxA
+		\ifdim\@tempdima<\bio@colht
+			\@tempdima\z@\bio@addheight\@tempdima\bio@rightxA
+			\ifdim\@tempdima<\bio@colht \@tempcnta\@ne
+				\let\@elt\bio@putelt
+				\bio@leftxA\bio@newpage\bio@rightxA\fi\fi\fi
+% The following may be redundant.
+	\ifnum\@tempcnta=\z@
+		\let\@elt\bio@putelt\bio@listsave\fi}}
+\def\bio@specialawfulput{{\advance\bio@th-\dimen\bio@pbox
+	\ifdim\bio@th<\bio@colht\bio@newpage
+	\let\bio@newpage\relax\fi\bio@normalawfulput}}
+
+\def\bio@putelt#1{\ifnum\count#1>\z@\else\box#1
+	\nobreak\vskip-2\baselineskip\prevdepth\z@\hbox{}
+	\vskip\baselineskip\fi}
+\def\bio@xvskip#1{\vskip#1\prevdepth\z@}
+\def\bio@newpage{\vskip-\baselineskip\newpage}
+
+\def\bio@nextpage{\bio@newpage \let\bio@list\bio@deferred
+	\bio@th\z@ \bio@addheight\bio@th\bio@list
+	\bio@colht\@colht \advance\bio@colht-\topskip
+	\advance\bio@colht\baselineskip
+	\bio@splitheight\bio@colht \bio@splitpage
+	\bio@splitheight.5\bio@th
+	\let\bio@awfulput\bio@normalawfulput}
+\def\bio@splitpage{\let\bio@listsave\bio@list \bio@split
+	\@tempdima\bio@th \advance\@tempdima-\bio@lhA
+	\ifdim\@tempdima>\bio@colht
+		\let\bio@leftAsave\bio@leftA \bio@th\bio@lhA
+		\let\bio@list\bio@rightA \bio@splitheight\bio@colht
+		\bio@split \edef\bio@list{\bio@leftAsave\bio@leftA}%
+		\advance\bio@th\bio@lhA
+		\let\bio@deferred\bio@rightA
+	\else\def\bio@deferred{}\let\bio@list\bio@listsave\fi}
+
+% \bio@tolerablegap:	maximum tolerable gap between adjacent bio's.
+% \bio@tolerablestretch:maximum stretch of a column.
+
+\@tempdima10\baselineskip		% This might be changed
+\edef\bio@tolerablegap{\the\@tempdima}
+\@tempdima15\baselineskip
+\edef\bio@tolerablelastgap{\the\@tempdima}
+\def\bio@tolerablestretch{2}		% This might be changed
+
+\def\bio@balance{\let\@elt\relax \edef\bio@bstack{%
+		\@elt{{\bio@left}{\bio@right}{}{}{0pt}}}
+	\bio@xbalance}
+\def\bio@xbalance{%
+	\expandafter\bio@popstack\bio@bstack\@nil
+	\let\bio@nextA\bio@xbalance \@tempdima\z@
+	\ifx\bio@left\empty \ifx\bio@right\empty
+		\let\bio@nextA\bio@balanceend
+	\else
+		\bio@addheight\@tempdima\bio@right
+		\edef\bio@leftx{\bio@leftx\bio@vskip{\the\@tempdima}}%
+		\advance\bio@hX\@tempdima
+		\edef\bio@rightx{\bio@rightx\bio@right}\def\bio@right{}%
+		\bio@pushstack \fi\else
+	\ifx\bio@right\empty
+		\bio@addheight\@tempdima\bio@left
+		\edef\bio@rightx{\bio@rightx\bio@vskip{\the\@tempdima}}%
+		\advance\bio@hX\@tempdima
+		\edef\bio@leftx{\bio@leftx\bio@left}\def\bio@left{}%
+		\bio@pushstack \else
+	\bio@car\@tempdima\bio@leftbox\bio@left
+	\bio@car\@tempdimb\bio@rightbox\bio@right
+	\edef\bio@leftx{\bio@leftx\@elt\bio@leftbox}%
+	\edef\bio@rightx{\bio@rightx\@elt\bio@rightbox}%
+	\ifdim\@tempdima>\@tempdimb
+		\advance\bio@hX\@tempdima
+		\let\bio@da\@tempdima\let\bio@db\@tempdimb
+		\bio@ibalance\bio@left\bio@right\bio@leftx\bio@rightx
+	\else	\advance\bio@hX\@tempdimb
+		\let\bio@da\@tempdimb\let\bio@db\@tempdima
+		\bio@ibalance\bio@right\bio@left\bio@rightx\bio@leftx\fi
+	\fi\fi\bio@nextA}
+\def\bio@ibalance#1#2#3#4{\let\bio@nextB\relax
+	\ifx#2\empty 
+		\advance\bio@da-\bio@db
+		\edef#4{#4\bio@vskip{\the\bio@da}}\bio@pushstack\else
+	\bio@car\bio@tempdim\@currbox#2 \advance\bio@db\bio@tempdim
+	\ifdim\bio@da<\bio@db
+		\advance\bio@db-\bio@da
+		\let\@tempa#3\edef#3{#3\bio@vskip{\the\bio@db}}%
+		\let\@tempb#4\edef#4{#4\@elt\@currbox}%
+		\advance\bio@hX\bio@db \bio@pushstack
+		\advance\bio@hX-\bio@db
+		\edef#2{\@elt\@currbox#2}%
+		\advance\bio@tempdim-\bio@db
+		\let#3\@tempa \edef#4{\@tempb\bio@vskip{\the\bio@tempdim}}%
+		\bio@pushstack
+	\else \edef#4{#4\@elt\@currbox}\def\bio@nextB{\bio@ibalance#1#2#3#4}%
+	\fi\fi\bio@nextB}
+\def\bio@balanceend{\bio@awfulfalse \def\bio@bstack{}%
+	\bio@maxgap\z@ \bio@lastgap\z@
+	\bio@checkgap\bio@leftx \bio@checkgap\bio@rightx
+	\ifdim\bio@maxgap>\bio@tolerablegap\relax\bio@awfultrue\fi
+	\ifdim\bio@lastgap>\bio@tolerablelastgap\relax\bio@awfultrue\fi
+	\ifdim\bio@hX>\bio@tolerablestretch\bio@splitheight\bio@awfultrue\fi
+	\ifdim\bio@hX>\bio@colht\bio@awfultrue\fi}
+\def\bio@checkgap#1{{\@tempdima\z@ \@tempdimb\z@ \bio@tempdim\z@
+	\let\@elt\bio@cgelt \let\bio@vskip\bio@cgvskip #1\relax
+	\ifdim\@tempdima>\bio@maxgap \global\bio@maxgap\@tempdima \fi
+	\ifdim\bio@tempdim>\bio@lastgap \global\bio@lastgap\bio@tempdim \fi}}
+\def\bio@cgvskip#1{\advance\bio@tempdim#1\relax
+	\ifdim\bio@tempdim>\@tempdimb \@tempdimb\bio@tempdim\fi}
+\def\bio@cgelt#1{\@tempdima\@tempdimb \bio@tempdim\z@}
+\def\bio@popstack\@elt#1#2\@nil{\edef\bio@bstack{#2}\bio@ipopstack#1}
+\def\bio@ipopstack#1#2#3#4#5{\def\bio@left{#1}\def\bio@right{#2}%
+	\def\bio@leftx{#3}\def\bio@rightx{#4}\bio@hX#5\relax}
+\def\bio@pushstack{\def\bio@bstackx{}%
+	\expandafter\bio@ipushstack\bio@bstack\@elt\@nil}
+\def\bio@ipushstack\@elt#1{\def\@tempc{#1}%
+	\ifx\@tempc\@nnil \edef\bio@bstack{\bio@bstackx\bio@stackelt}%
+		\let\bio@nextC\relax \else
+	\bio@iipushstack#1\fi\bio@nextC}
+\def\bio@iipushstack#1#2#3#4#5{\ifdim#5>\bio@hX
+	\edef\bio@bstackx{\bio@bstackx\bio@stackelt
+		\@elt{{#1}{#2}{#3}{#4}{#5}}}%
+		\let\bio@nextC\bio@pushstackend\else
+	\edef\bio@bstackx{\bio@bstackx
+		\@elt{{#1}{#2}{#3}{#4}{#5}}}%
+		\let\bio@nextC\bio@ipushstack\fi}
+\def\bio@pushstackend#1\@elt\@nil{\edef\bio@bstack{\bio@bstackx#1}}
+\def\bio@stackelt{\@elt{{\bio@left}{\bio@right}{\bio@leftx}{\bio@rightx}%
+	{\the\bio@hX}}}
+\def\bio@addheight#1#2{\def\@elt##1{\advance#1\dimen##1}#2\let\@elt\relax}
+\def\bio@car#1#2#3{\expandafter\bio@icar#3\@nil#1#2#3}
+\def\bio@icar\@elt#1#2\@nil#3#4#5{#3=\dimen#1\relax\def#4{#1}\def#5{#2}}
+
+
+%%%%%% Miscellaneous %%%%%%
+
+\flushbottom
+
+\ifDS@english
+\hbadness9999 \tolerance9999
+\else
+\hbadness5000 \tolerance5000
+\pretolerance\m@ne
+\fi
+
+\input{ipsjcommon.sty}
+
+\twocolumn
+
+\endinput
