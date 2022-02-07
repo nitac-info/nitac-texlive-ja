@@ -6,9 +6,9 @@
 % ipsjpapers.cls  1-Apr-96 by Hiroshi Nakashima (ver 2.00)
 
 \ifx\pfmtname\undefined
-\NeedsTeXFormat{LaTeX2e}
+	\NeedsTeXFormat{LaTeX2e}
 \else
-\NeedsTeXFormat{pLaTeX2e}
+	\NeedsTeXFormat{pLaTeX2e}
 \fi
 
 \ProvidesClass{ipsjpapers}[2007/06/15 ver 2.12]
