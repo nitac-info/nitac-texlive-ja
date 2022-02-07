@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 if [ $# -ne 1 ]; then
   echo "指定された引数は$#個です。" 1>&2
