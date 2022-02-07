@@ -1,6 +1,7 @@
 ## common
 *temp.tex
 **/latexmkrc
+*.bak*
 
 ## Mac
 *.DS_Store
