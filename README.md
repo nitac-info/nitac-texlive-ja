@@ -1,7 +1,6 @@
 # nitac-texlive-ja
 
-阿南工業高等専門学校 情報コース 卒業論文 の LaTeX テンプレートリポジトリ
-
+阿南工業高等専門学校 情報コース 卒業論文 の LaTeX テンプレートリポジトリ<br>
 [電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) の LaTeX テンプレートをもとに作成する．
 
 ## フォルダ構造
@@ -43,7 +42,7 @@ docker build -t nitac-texlive-ja .
 
 #### Windows
 
-Windowsのスクリプトには拡張子は必要ない．
+**Windowsのスクリプトには拡張子は必要ない．**
 
 ```
 ./scripts/texc.ps1 ファイル名
