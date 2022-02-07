@@ -1,6 +1,7 @@
 # nitac-texlive-ja
 
-阿南工業高等専門学校 情報コース 卒業論文の LaTeX テンプレートリポジトリ
+阿南工業高等専門学校 情報コース 卒業論文 の LaTeX テンプレートリポジトリ
+
 [電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) の LaTeX テンプレートをもとに作成する．
 
 ## フォルダ構造
@@ -38,7 +39,7 @@ docker build -t nitac-texlive-ja .
 
 ### 2. LaTeX ファイルのコンパイル
 
-それぞれ環境変数や alias に追加すると便利に使えそう
+それぞれ環境変数や alias に追加すると便利に使えそう．
 
 #### Windows
 
