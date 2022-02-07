@@ -1,4 +1,4 @@
-#Windows Powershell Script
+# Windows PowerShell Script
 
 Function ShowToast {
     [CmdletBinding()]
@@ -31,12 +31,12 @@ Function ShowToast {
     [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($app_id).Show($toast)
 }
 
-docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx uplatex $Args[0]
+docker run --rm -v ${PWD}:/workdir nitac-texlive-ja uplatex $Args[0]
 if (Test-Path (($Args[0]+".dvi"))){
     if (Test-Path ($Args[0]+".pdf")){
         Remove-Item ($Args[0]+".pdf")
     }
-    docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx dvipdfmx $Args[0]
+    docker run --rm -v ${PWD}:/workdir nitac-texlive-ja dvipdfmx $Args[0]
 
     Remove-Item ($Args[0]+".aux")
     Remove-Item ($Args[0]+".dvi")
