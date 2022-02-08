@@ -36,16 +36,16 @@ if (Test-Path "latexindent.flg"){
     if (!(Test-Path "Backup")) {
         New-Item "Backup" -ItemType Directory
     }
-    docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx latexindent $Args[0] --overwrite -c="Backup/"
+    docker run --rm -v ${PWD}:/workdir nitac-texlive-ja latexindent $Args[0] --overwrite -c="Backup/"
     New-Item "latexindent.flg"
     exit
 }
-docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx uplatex $Args[0]
+docker run --rm -v ${PWD}:/workdir nitac-texlive-ja uplatex $Args[0]
 if (Test-Path (($Args[0]+".dvi"))){
     if (Test-Path ($Args[0]+".pdf")){
         Remove-Item ($Args[0]+".pdf")
     }
-    docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx dvipdfmx $Args[0]
+    docker run --rm -v ${PWD}:/workdir nitac-texlive-ja dvipdfmx $Args[0]
 
     Remove-Item ($Args[0]+".aux")
     Remove-Item ($Args[0]+".dvi")
