@@ -1,4 +1,4 @@
-# Windows PowerShell Script
+#Windows Powershell Script
 
 Function ShowToast {
     [CmdletBinding()]
@@ -30,13 +30,22 @@ Function ShowToast {
     $toast = New-Object Windows.UI.Notifications.ToastNotification $xml
     [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($app_id).Show($toast)
 }
-
-docker run --rm -v ${PWD}:/workdir nitac-texlive-ja uplatex $Args[0]
+if (Test-Path "latexindent.flg"){
+    Remove-Item  "latexindent.flg"
+}else{
+    if (!(Test-Path "Backup")) {
+        New-Item "Backup" -ItemType Directory
+    }
+    docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx latexindent $Args[0] --overwrite -c="Backup/"
+    New-Item "latexindent.flg"
+    exit
+}
+docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx uplatex $Args[0]
 if (Test-Path (($Args[0]+".dvi"))){
     if (Test-Path ($Args[0]+".pdf")){
         Remove-Item ($Args[0]+".pdf")
     }
-    docker run --rm -v ${PWD}:/workdir nitac-texlive-ja dvipdfmx $Args[0]
+    docker run --rm -v ${PWD}:/workdir texlive-ja-add-newtx dvipdfmx $Args[0]
 
     Remove-Item ($Args[0]+".aux")
     Remove-Item ($Args[0]+".dvi")
