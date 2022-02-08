@@ -38,6 +38,7 @@ if (Test-Path "latexindent.flg"){
     }
     docker run --rm -v ${PWD}:/workdir nitac-texlive-ja latexindent $Args[0] --overwrite -c="backup/"
     New-Item "latexindent.flg"
+    texc.ps1 $Args[0]
     exit
 }
 docker run --rm -v ${PWD}:/workdir nitac-texlive-ja uplatex $Args[0]
