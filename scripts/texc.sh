@@ -16,6 +16,7 @@ else
   fi
   docker run --rm -v $PWD:/workdir nitac-texlive-ja latexindent $1 --overwrite -c="backup/"
   touch "latexindent.flg"
+  bash texc.sh $1
   exit
 fi
 
