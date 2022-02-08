@@ -1,4 +1,4 @@
-#Windows Powershell Script
+# Windows PowerShell Script
 
 Function ShowToast {
     [CmdletBinding()]
@@ -33,10 +33,10 @@ Function ShowToast {
 if (Test-Path "latexindent.flg"){
     Remove-Item  "latexindent.flg"
 }else{
-    if (!(Test-Path "Backup")) {
-        New-Item "Backup" -ItemType Directory
+    if (!(Test-Path "backup")) {
+        New-Item "backup" -ItemType Directory
     }
-    docker run --rm -v ${PWD}:/workdir nitac-texlive-ja latexindent $Args[0] --overwrite -c="Backup/"
+    docker run --rm -v ${PWD}:/workdir nitac-texlive-ja latexindent $Args[0] --overwrite -c="backup/"
     New-Item "latexindent.flg"
     exit
 }
