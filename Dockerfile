@@ -21,3 +21,9 @@ RUN cpan Log::Log4perl \
   && cpan Log::Dispatch::File \
   && cpan File::HomeDir \
   && cpan Unicode::GCString
+
+# latexindentの設定
+RUN sed -i -e 's/indentAfterThisHeading: 0/indentAfterThisHeading: 1/' \
+  /usr/local/texlive/2021/texmf-dist/scripts/latexindent/defaultSettings.yaml
+RUN sed -i -e 's/onlyOneBackUp: 0/onlyOneBackUp: 1/' \
+  /usr/local/texlive/2021/texmf-dist/scripts/latexindent/defaultSettings.yaml

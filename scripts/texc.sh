@@ -7,6 +7,18 @@ if [ $# -ne 1 ]; then
 fi
 
 file_name=${1}
+
+if [ -e "latexindent.flg"]; then
+  rm -f "latexindent.flg"
+else
+  if [ -d "Backup"]; then
+    mkdir Backup
+  fi
+  docker run --rm -v $PWD:/workdir nitac-texlive-ja latexindent $1 --overwrite -c="Backup/"
+  touch "latexindent.flg"
+  exit
+fi
+
 docker run --rm -v $PWD:/workdir nitac-texlive-ja uplatex $1
 dvi_file=(${file_name//.tex/}".dvi")
 if [ -e $dvi_file ]; then
