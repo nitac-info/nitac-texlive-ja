@@ -11,7 +11,7 @@ file_name=${1}
 if [ -e "latexindent.flg" ]; then
   rm -f "latexindent.flg"
 else
-  if [ -d "backup" ]; then
+  if [ ! -d "backup" ]; then
     mkdir backup
   fi
   docker run --rm -v $PWD:/workdir nitac-texlive-ja latexindent $1 --overwrite -c="backup/"
