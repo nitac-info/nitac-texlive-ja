@@ -29,6 +29,20 @@ docker pull ghcr.io/nitac-info/nitac-texlive-ja:latest
 
 ## 使い方
 
+#### Windows(PowerShell)
+
+```sh
+docker run --rm -it -v ${PWD}:/workdir ghcr.io/nitac-info/nitac-texlive-ja:latest \
+    sh -c 'latexmk -C main.tex && latexmk main.tex && latexmk -c main.tex'
+```
+
+#### Mac・Linux
+
+```sh
+docker run --rm -it -v $PWD:/workdir ghcr.io/nitac-info/nitac-texlive-ja:latest \
+    sh -c 'latexmk -C main.tex && latexmk main.tex && latexmk -c main.tex'
+```
+
 ## コントリビュートについて
 
 バグ修正は歓迎します．
