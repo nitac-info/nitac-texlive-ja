@@ -1,84 +1,42 @@
 # nitac-texlive-ja
 
-阿南工業高等専門学校 情報コース 卒業論文 の LaTeX テンプレートリポジトリ<br>
-[電気情報通信学会和文論文誌](https://www.ieice.org/jpn/shiori/cs_2.html) の LaTeX テンプレートをもとに作成する．
+[paperist/texlive-ja](https://hub.docker.com/r/paperist/texlive-ja/) をカスタマイズして作った [nitac-info/nitac-graduation-thesis-template](https://github.com/nitac-info/nitac-graduation-thesis-template) のテンプレートをコンパイルするための Docker イメージ
 
-## フォルダ構造
+## タグ一覧
+
+- `latest`
+  - AMD64, ARM64 に対応しています．
+
+## 入っているもの
+
+- tlmgr
+  - newtx
+  - fontaxes
+  - boondox
+  - txfonts
+  - helvetic
+  - latexindent
+
+## インストール
+
+### GitHub Container Registry
+
+GitHub Container Registry からインストールできます．
 
 ```
-├── Dockerfile
-├── README.md (本ファイル)
-├── draft (卒論ドラフトテンプレートフォルダ)
-│   ├── ipsjcommon.sty
-│   ├── ipsjdrafts.sty
-│   ├── ipsjpapers.cls
-│   ├── ipsjpapers.sty
-│   └── nitac-drafts.tex
-├── latexmkrc
-├── paper (卒業論文テンプレートフォルダ)
-│   ├── ieicej.cls
-│   ├── nitac-paper.tex
-│   └── sieicej.bst
-└── scripts
-    ├── texc.ps1 (Windows 環境用コンパイルスクリプト)
-    └── texc.sh  (Mac・Linux 環境用コンパイルスクリプト)
+docker pull ghcr.io/nitac-info/nitac-texlive-ja:latest
 ```
 
 ## 使い方
 
-### 1. Dockerfile のビルド
+## コントリビュートについて
 
-[paperist/texlive-ja](https://hub.docker.com/r/paperist/texlive-ja/) をもとに作った Dockerfile をビルドする．
+バグ修正は歓迎します．
 
-```
-git clone https://github.com/nitac-info/nitac-texlive-ja
-cd nitac-texlive-ja
-docker build -t nitac-texlive-ja .
-```
+機能を追加したい場合は、このイメージを基に拡張したイメージを作ることができます．
 
-### 2. LaTeX ファイルのコンパイル
+詳しくは [dockerイメージをカスタマイズする](https://github.com/nitac-info/nitac-graduation-thesis-template#docker-%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%82%92%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA%E3%81%99%E3%82%8B) を参照してください．
 
-それぞれ環境変数や alias に追加すると便利に使えそう．
+## ライセンス
 
-#### Windows
-
-**Windows のスクリプトには拡張子は必要ない．**
-
-```
-./scripts/texc.ps1 ファイル名
-```
-
-#### Mac・Linux(bash)
-
-```
-chmod +x ./scripts/texc.sh
-./scripts/texc.sh ファイル名.tex
-```
-
-## その他
-
-### Visual Studio Code + LaTeX Workshop で自動コンパイルを行う
-
-1. [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) をインストールする
-2. Visual Studio Code の `settings.json` に以下を追加する ([開き方](https://code.visualstudio.com/docs/getstarted/settings))
-3. 自身の論文作成フォルダに `latexmkrc` ファイルをコピーする
-
-```json
-{
-  "latex-workshop.docker.enabled": true,
-  "latex-workshop.docker.image.latex": "nitac-texlive-ja",
-  "latex-workshop.latex.tools": [
-    {
-      "name": "latexmk",
-      "command": "latexmk",
-      "args": ["-gg", "%DOCFILE%"]
-    },
-    {
-      "name": "latexindent",
-      "command": "latexindent",
-      "args": ["%DOCFILE", "--overwrite"]
-    }
-  ],
-  "latex-workshop.latex.autoClean.run": "onBuilt"
-}
-```
+MIT (c) National Institute of Technology, Anan College. Infomation Course.
