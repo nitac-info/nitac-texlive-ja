@@ -1,6 +1,6 @@
 # nitac-texlive-ja
 
-[paperist/texlive-ja](https://hub.docker.com/r/paperist/texlive-ja/) をカスタマイズして作った [nitac-info/nitac-graduation-thesis-template](https://github.com/nitac-info/nitac-graduation-thesis-template) のテンプレートをコンパイルするための Docker イメージ
+[paperist/texlive-ja](https://hub.docker.com/r/paperist/texlive-ja/) をカスタマイズして作った [nitac-info/nitac-graduation-thesis-template](https://github.com/nitac-info/nitac-graduation-thesis-template) をコンパイルするための Docker イメージ
 
 ## タグ一覧
 
