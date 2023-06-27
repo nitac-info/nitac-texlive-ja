@@ -21,13 +21,6 @@ RUN tlmgr option repository ctan \
   helvetic \
   latexindent
 
-RUN cpan install Bundle::CPAN \
-  && cpan reload CPAN \
-  && cpan Log::Log4perl \
-  && cpan YAML/Tiny.pm \
-  && cpan Log::Dispatch::File \
-  && cpan File::HomeDir \
-  && cpan Unicode::GCString
 
 # latexindentの設定
 RUN sed -i -e 's/indentAfterThisHeading: 0/indentAfterThisHeading: 1/' \
