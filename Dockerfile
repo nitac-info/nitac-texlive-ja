@@ -29,3 +29,8 @@ RUN sed -i -e 's/indentAfterThisHeading: 0/indentAfterThisHeading: 1/' \
   /usr/local/texlive/2023/texmf-dist/scripts/latexindent/defaultSettings.yaml
 RUN sed -i -e 's/onlyOneBackUp: 0/onlyOneBackUp: 1/' \
   /usr/local/texlive/2023/texmf-dist/scripts/latexindent/defaultSettings.yaml
+
+RUN apt-get install ghostscript git -y \
+  && tlmgr update --self
+RUN  apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
