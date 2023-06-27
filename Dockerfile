@@ -16,7 +16,9 @@ RUN tlmgr install \
   helvetic \
   latexindent
 
-RUN cpan Log::Log4perl \
+RUN cpan install Bundle::CPAN \
+  && cpan reload CPAN \
+  && cpan Log::Log4perl \
   && cpan YAML/Tiny.pm \
   && cpan Log::Dispatch::File \
   && cpan File::HomeDir \
@@ -24,6 +26,6 @@ RUN cpan Log::Log4perl \
 
 # latexindentの設定
 RUN sed -i -e 's/indentAfterThisHeading: 0/indentAfterThisHeading: 1/' \
-  /usr/local/texlive/2021/texmf-dist/scripts/latexindent/defaultSettings.yaml
+  /usr/local/texlive/2023/texmf-dist/scripts/latexindent/defaultSettings.yaml
 RUN sed -i -e 's/onlyOneBackUp: 0/onlyOneBackUp: 1/' \
-  /usr/local/texlive/2021/texmf-dist/scripts/latexindent/defaultSettings.yaml
+  /usr/local/texlive/2023/texmf-dist/scripts/latexindent/defaultSettings.yaml
