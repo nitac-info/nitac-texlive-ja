@@ -8,6 +8,7 @@
   - AMD64, ARM64 に対応しています．
 
 ## 入っているもの
+- ghostscript
 
 - tlmgr
   - newtx
