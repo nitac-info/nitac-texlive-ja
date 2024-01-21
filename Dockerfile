@@ -6,6 +6,7 @@ RUN apt-get update \
     cmake \
     ghostscript \
     git \
+    perl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,9 +29,7 @@ RUN sed -i -e 's/indentAfterThisHeading: 0/indentAfterThisHeading: 1/' \
   && sed -i -e 's/onlyOneBackUp: 0/onlyOneBackUp: 1/' \
   /usr/local/texlive/2023/texmf-dist/scripts/latexindent/defaultSettings.yaml
 
-
-RUN apt install cpanm -y && \
-  cpanm Unicode::GCString && \
-  cpanm App::cpanminus && \
-  cpanm YAML::Tiny && \
+RUN cpan Unicode::GCString && \
+  cpan App::cpanminus && \
+  cpan YAML::Tiny && \
   perl -MCPAN -e 'install "File::HomeDir"'
