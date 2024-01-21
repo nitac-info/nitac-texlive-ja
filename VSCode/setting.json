@@ -1,0 +1,54 @@
+"latex-workshop.latex.autoBuild.cleanAndRetry.enabled": true,
+"latex-workshop.latex.clean.method": "glob",
+"latex-workshop.docker.enabled": true,
+"latex-workshop.docker.image.latex": "texlive-ja:latest",
+"latex-workshop.latex.autoClean.run": "onBuilt",
+"latex-workshop.latex.clean.fileTypes": [
+  "*.aux",
+  "*.bbl",
+  "*.blg",
+  "*.idx",
+  "*.ind",
+  "*.lof",
+  "*.lot",
+  "*.out",
+  "*.toc",
+  "*.acn",
+  "*.acr",
+  "*.alg",
+  "*.glg",
+  "*.glo",
+  "*.gls",
+  "*.ist",
+  "*.fls",
+  "*.log",
+  "*.fdb_latexmk",
+  "*.snm",
+  "*.nav",
+  "*.dvi",
+  "*.synctex.gz"
+],
+"latex-workshop.latex.recipes": [
+  {
+    "name": "compile",
+    "tools": ["latexmk"]
+  }
+],
+"latex-workshop.latex.tools": [
+  {
+    "args": ["-gg", "%DOCFILE%"],
+    "command": "latexmk",
+    "name": "latexmk"
+  }
+],
+"latex-workshop.latexindent.args": [
+  "-c",
+  "%DIR%/",
+  "%TMPFILE%",
+  "-y=defaultIndent: '%INDENT%'"
+],
+"latex-workshop.latexindent.path": "/usr/local/texlive/2023/bin/x86_64-linux/latexindent"
+,
+"workbench.editorAssociations": {
+  "*.pdf": "pdf.preview"
+}
